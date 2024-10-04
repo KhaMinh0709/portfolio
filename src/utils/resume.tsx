@@ -3,7 +3,7 @@ import { ColorTags, GradientText } from 'astro-boilerplate-components';
 export const DATA = {
   title: (
     <>
-      Hi there, I'm <GradientText>Minh</GradientText> 👋
+      Xin chào, Tôi là <GradientText>Minh</GradientText> 👋
     </>
   ),
   description: (
