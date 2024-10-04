@@ -7,18 +7,18 @@ export const DATA = {
     </>
   ),
   description: (
-    <>
-      hello Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus{' '}
-      <a className="text-cyan-400 hover:underline" href="/">
-        malesuada
-      </a>{' '}
-      nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit amet,{' '}
-      <a className="text-cyan-400 hover:underline" href="/">
-        consectetur
-      </a>{' '}
-      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.1
-    </>
-  ),
+  <>
+    Hello, I am a full-stack developer with a passion for building robust and scalable applications. 
+    I specialize in both front-end and back-end development, working with technologies such as{' '}
+    <a className="text-cyan-400 hover:underline" href="/">
+      React
+    </a>{' '}
+    and{' '}
+    <a className="text-cyan-400 hover:underline" href="/">
+      Spring Boot
+    </a>. My goal is to create efficient, user-friendly solutions that deliver value to businesses and users alike.
+  </>
+),
   avatar: '/assets/images/avatar.svg',
   socialButtons: [
     {
