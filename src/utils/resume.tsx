@@ -51,7 +51,7 @@ export const DATA = {
       description: 'Booking Train Ticket BE using java Spring boot',
       link: 'https://github.com/KhaMinh0709/BookingTrainTicket-BE-SpringBoot',
       img: {
-        src: '/assets/images/project-web-design.png',
+        src: '/assets/images/booking.png',
         alt: 'Booking Train Ticket BE using java Spring boot',
       },
       category: [
