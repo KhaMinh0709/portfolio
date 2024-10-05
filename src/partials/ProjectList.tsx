@@ -3,7 +3,7 @@ import { Project, Section, Tags } from 'astro-boilerplate-components';
 import { DATA } from '@/utils/resume';
 
 const ProjectList = () => (
-  <Section title={<>Dự án của tôi</>}>
+  <Section title={<>My projects</>}>
     <div className="flex flex-col gap-6">
       {DATA.projects.map((project, index) => (
         <Project

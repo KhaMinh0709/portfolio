@@ -7,5 +7,27 @@ const { description } = AppConfig;
 ---
 
 <Base head={{ title, description }}>
-  <div>hello</div>
+  <div class='container mx-auto max-w-3xl rounded-lg p-6 shadow-md'>
+    <h1 class='mb-6 text-center text-4xl'>About Me</h1>
+    <div class='profile font-sans leading-relaxed'>
+      <h2 class='text-3xl text-blue-600'>Nguyen Kha Minh</h2>
+      <p class='my-2 text-lg'>
+        Currently studying at <strong
+          >Industrial University of Ho Chi Minh City (IUH)
+        </strong> majoring in <strong>Computer Science</strong>
+      </p>
+      <p class='my-2 text-lg'>
+        I have a strong passion for the profession: <em>"Coding"</em>.
+      </p>
+      <h3 class='mt-5 text-2xl'>My Strengths:</h3>
+      <ul class='ml-6 list-disc'>
+        <li class='my-1'>Backend Development with Java Spring Boot</li>
+        <li class='my-1'>Frontend Development with React.js</li>
+        <li class='my-1'>
+          Creating AI Models using Machine Learning (ML) and Deep Learning (DL)
+        </li>
+        <li class='my-1'>Image Processing and Pattern Recognition</li>
+      </ul>
+    </div>
+  </div>
 </Base>

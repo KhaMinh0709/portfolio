@@ -1,7 +1,7 @@
 import { Section } from 'astro-boilerplate-components';
 
 const Sponsors = () => (
-  <Section title="Kỹ năng">
+  <Section title="My skill">
     <table className="mx-auto border-collapse">
       <tbody>
         <tr className="h-56">

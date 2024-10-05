@@ -10,10 +10,10 @@ const RecentPosts = (props: IRecentPostsProps) => (
   <Section
     title={
       <div className="flex items-baseline justify-between">
-        <div>Bài viết</div>
+        <div>Blog</div>
 
         <div className="text-sm">
-          <a href="/posts/">Xem tất cả bài viết →</a>
+          <a href="/posts/">See All the posts →</a>
         </div>
       </div>
     }

@@ -3,22 +3,25 @@ import { ColorTags, GradientText } from 'astro-boilerplate-components';
 export const DATA = {
   title: (
     <>
-      Xin chào, Tôi là <GradientText>Minh</GradientText> 👋
+      Hello I am <GradientText>Minh</GradientText> 👋
     </>
   ),
   description: (
-  <>
-    Hello, I am a full-stack developer with a passion for building robust and scalable applications. 
-    I specialize in both front-end and back-end development, working with technologies such as{' '}
-    <a className="text-cyan-400 hover:underline" href="/">
-      React
-    </a>{' '}
-    and{' '}
-    <a className="text-cyan-400 hover:underline" href="/">
-      Spring Boot
-    </a>. My goal is to create efficient, user-friendly solutions that deliver value to businesses and users alike.
-  </>
-),
+    <>
+      Hello, I am a full-stack developer with a passion for building robust and
+      scalable applications. I specialize in both front-end and back-end
+      development, working with technologies such as{' '}
+      <a className="text-cyan-400 hover:underline" href="/">
+        React
+      </a>{' '}
+      and{' '}
+      <a className="text-cyan-400 hover:underline" href="/">
+        Spring Boot
+      </a>
+      . My goal is to create efficient, user-friendly solutions that deliver
+      value to businesses and users alike.
+    </>
+  ),
   avatar: '/assets/images/avatar.svg',
   socialButtons: [
     {
@@ -29,12 +32,12 @@ export const DATA = {
     {
       src: '/assets/images/facebook-icon.png',
       alt: 'Facebook icon',
-      href: '/',
+      href: 'https://www.facebook.com/khaminhne/',
     },
     {
       src: '/assets/images/linkedin-icon.png',
       alt: 'Linkedin icon',
-      href: '/',
+      href: 'https://www.linkedin.com/in/minh-nguy%E1%BB%85n-kh%E1%BA%A3-61a3aa312/',
     },
     {
       src: '/assets/images/youtube-icon.png',
@@ -44,61 +47,88 @@ export const DATA = {
   ],
   projects: [
     {
-      name: 'Project 1',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum. Nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim.',
-      link: '/',
+      name: 'Booking Train Ticket System (BE)',
+      description: 'Booking Train Ticket BE using java Spring boot',
+      link: 'https://github.com/KhaMinh0709/BookingTrainTicket-BE-SpringBoot',
       img: {
         src: '/assets/images/project-web-design.png',
-        alt: 'Project Web Design',
+        alt: 'Booking Train Ticket BE using java Spring boot',
       },
       category: [
         {
-          name: 'Astro.js',
+          name: 'Java Spring boot',
           color: ColorTags.FUCHSIA,
         },
         {
-          name: 'Web design',
+          name: 'swagger',
           color: ColorTags.LIME,
         },
         {
-          name: 'Tailwind.css',
+          name: 'hybernate',
           color: ColorTags.SKY,
         },
         {
-          name: 'TypeScript',
+          name: 'spring secure',
           color: ColorTags.ROSE,
+        },
+      ],
+    },
+    {
+      name: 'Booking Train Ticket System At The Station (Desktop)',
+      description:
+        'Booking Train Ticket at the station using java swing desktop & jdbc',
+      link: 'https://github.com/KhaMinh0709/BookTrainTicketsAtTheStation-IUH',
+      img: {
+        src: '/assets/images/booking.png',
+        alt: 'Booking Train Ticket at the station using java swing desktop & jdbc',
+      },
+      category: [
+        {
+          name: 'Java Swing',
+          color: ColorTags.FUCHSIA,
+        },
+        {
+          name: 'jdbc',
+          color: ColorTags.LIME,
+        },
+        {
+          name: 'container swing',
+          color: ColorTags.SKY,
         },
       ],
     },
   ],
   footer: {
-    title: 'Liên hệ với tôi',
+    title: 'contact me',
     description: (
       <>
         <ul>
-          <li>Email: lỏe@gmail.com</li>
-          <li>số điện thoại:112</li>
+          <li>Email: nguyenkhaminh9c@gmail.com</li>
+          <li>phone: 0373254600</li>
         </ul>
       </>
     ),
   },
   posts: {
-    title: 'Bài viết của tôi',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    title: 'my post',
+    description: 'Share useful knowledge that I know',
   },
   menus: [
     {
-      name: 'Trang chủ',
+      name: 'Home',
       href: '/',
     },
     {
-      name: 'Bài viết',
+      name: 'post',
       href: '/posts',
     },
     {
       name: 'Github',
-      href: 'https://github.com/vuvandinh123',
+      href: 'https://github.com/KhaMinh0709',
+    },
+    {
+      name: 'About detail me',
+      href: '/about',
     },
   ],
   logo: {
