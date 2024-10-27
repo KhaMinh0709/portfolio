@@ -1,0 +1,86 @@
+const callAjax = async (url, dataPost, typeData, method, csrfToken, check_loading)=>{
+    
+    jQuery('#loading_spinner').remove();
+    jQuery('#notify_model').remove();
+    // add modal bootstrap loading
+    var html_spiner = '<div id="loading_spinner" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="padding-right:0px !important">'
+    html_spiner += '<div class="modal-dialog">'
+    html_spiner += '<div class="loading_spinner"></div></div></div>'
+
+    $('body').append(html_spiner);
+    try {
+        const result = await $.ajax({
+            type: method,
+            url: url,
+            dataType: typeData,
+            data: dataPost,
+            headers: { 'X-CSRF-Token': csrfToken },
+            beforeSend: function () {
+                if(check_loading == 1){
+                    $('#loading_spinner').modal('show');
+                }
+            },
+            success: function (response) {
+                if (typeData == 'json') {
+                    if (response.status == 100000) {
+                        var Url = window.location.origin;
+                        $(location).attr('href', Url+'/Report/errorRole');
+                        return false;
+                    }
+                }else{
+                    if (response == '{"status":100000}') {
+                        var Url = window.location.origin;
+                        $(location).attr('href', Url+'/Report/errorRole');
+                        return false;
+                    }
+                }
+            },
+            complete: function () {
+                $('#loading_spinner').modal('hide');
+            },
+        });
+        return result;
+    } catch (e) {
+        return false;
+    }
+}
+
+function notifyModel(option = false, context = ''){
+    var element;
+    if(option == true){
+        element = '<input id = "update_info-contracting" type="button" class="btn btn-primary" value="'+context+'" data-dismiss="modal"/>';
+    }else{
+        element = '<input type="button" class="btn btn-primary" value="'+close+'" data-dismiss="modal" aria-label="Close"/>';
+    }
+    var notifyModel = '<div id="notify_model" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">\
+    <div class="modal-dialog" role="document">\
+    <div class="modal-content modal-content-TB">\
+    <div class="modal-header modal-header-TB">\
+        <center><h4 class="title_popup" id="exampleModalLongTitle"><b>'+thong_bao+'</b></h4></center>\
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+            <span aria-hidden="true">&times;</span>\
+        </button>\
+    </div>\
+    <div class="modal-body modal-body-TB" >\
+        <center id="notify"></center>\
+    </div>\
+    <div class="button-close">\
+    <center>'+element+'</center>\
+    </div>\
+    </div></div></div>';
+
+    $('body').append(notifyModel);
+    $('#loading_spinner').modal('hide');
+    $('#notify_model').modal('show');
+}
+$('.close-manipulation').click(function() {
+    $('.click-ul-tog').find('.ul-tog').hide();
+});
+
+function sroll_search(){
+    if($("#data-result").length > 0){
+        $('html, body').animate({
+            scrollTop: ($("#data-result").offset().top - 150)
+        }, 1000);
+    }
+}

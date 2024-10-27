@@ -1,0 +1,39 @@
+function getBannerText(type = 1, language = 'vi'){
+    if (language == 'vi') {
+        if (type == 1) {
+            var html_banner_text = `
+            <span style="display:none;"><p>VN <strong style="color:#ff0000;">-100%</strong> giá dịch vụ + hoàn tiền <strong style="color:#ff0000;">100k</strong>/domain</p></span>
+            <span><a href="https://tenten.vn/ten-mien/khuyen-mai-update?code=nvBhFkUNagWwPQYu&idCampaign=2661" target="_blank"><p>.VN <strong style="color:#ff0000;">giảm 200k</strong> Tặng Email Pro <strong style="color:#ff0000;">giảm 99%</strong> + tên miền <strong style="color:#ff0000;">1k</strong> + .shop <strong style="color:#ff0000;">0k</strong></p> </a></span>
+            <span><a href="https://tenten.vn/hosting/sp-hosting-free-plugin?code=kEhvSuTqWsadnKCt&idCampaign=2385" target="_blank"><p>Mua Hosting <strong style="color:#ff0000;">Free .VN</strong> + Tặng thêm <strong style="color:#ff0000;">Bộ plugin SEO $359</strong></p></a></span>
+            <span><a href="https://tenten.vn/ten-mien/km-com-net?code=ICRgShdskWMaZVBE&idCampaign=2697" target="_blank"><p>.COM<strong style="color:#ff0000;"> 193k/năm đầu</strong> (khi đăng ký từ 2 năm)</p></a></span>`;
+
+        }else{
+            var html_banner_text = `
+            <span style="display:none;"><p>VN <strong style="color:#ff0000;">-100%</strong> giá dịch vụ + hoàn tiền <strong style="color:#ff0000;">100k</strong>/domain</p></span>
+            <span><a href="https://tenten.vn/tin-tuc/cp-tong-hop-cac-uu-dai-hot-nhat-danh-cho-dai-ly/" target="_blank"><p>.VN <strong style="color:#ff0000;">giảm 200k</strong> Tặng Email Pro <strong style="color:#ff0000;">giảm 99%</strong> + .site/.online/.click <strong style="color:#ff0000;">1k</strong> + .shop <strong style="color:#ff0000;">0k</strong></p></a></span>
+            <span><a href="https://tenten.vn/tin-tuc/cp-tong-hop-cac-uu-dai-hot-nhat-danh-cho-dai-ly/" target="_blank"><p>.COM<strong style="color:#ff0000;"> 193k/năm đầu</strong> (khi đăng ký từ 2 năm)</p></a></span>`;
+
+        }
+    }else{
+        if (type == 1) {
+            var html_banner_text = `
+            <span style="display:none;"><p>VN <strong style="color:#ff0000;">-100%</strong> fee + <strong style="color:#ff0000;">free</strong> Email Pro 180k + .SHOP 890k</p></span>
+            <span><a href="https://tenten.vn/ten-mien/khuyen-mai-update?code=nvBhFkUNagWwPQYu&idCampaign=2661" target="_blank"><p>.VN <strong style="color:#ff0000;">-200k</strong> Bonus Email Pro <strong style="color:#ff0000;">-99%</strong> + .site/.online/.click <strong style="color:#ff0000;">1k</strong> + .shop <strong style="color:#ff0000;">0k</strong></p> </a></span>
+            <span><a href="https://tenten.vn/hosting/sp-hosting-free-plugin?code=kEhvSuTqWsadnKCt&idCampaign=2385" target="_blank"><p>Register Hosting <strong style="color:#ff0000;">free .VN</strong> Bonus plugin SEO <strong style="color:#ff0000;">$359</strong></p> </a></span>
+            <span><a href="https://tenten.vn/ten-mien/km-com-net?code=ICRgShdskWMaZVBE&idCampaign=2697" target="_blank"><p>.COM<strong style="color:#ff0000;"> 193k</strong> (Register 2 years)</p> </span>`;
+
+        }else{
+            var html_banner_text = '<span><a href="https://tenten.vn/ten-mien/khuyen-mai-update?code=nvBhFkUNagWwPQYu&idCampaign=2661" target="_blank"><p>.VN <strong style="color:#ff0000;">-100%</strong> fee + cash back <strong style="color:#ff0000;">55k</strong>/domain </p> </a></span><span><p>.COM <strong style="color:#ff0000;">228k/năm đầu (khi đăng ký từ 2 năm)</strong></p> </span>';
+        }
+    }
+    jQuery('.banner_text .marquee').html(html_banner_text);
+}
+jQuery(document).ready(function(){
+   jQuery(document).click(function(event) {
+         //if you click on anything except the modal itself or the "open modal" link, close the modal
+         if (!jQuery(event.target).closest(".custom_action, .custom_action ul").length) {
+            jQuery("body").find(".custom_action ul").hide();
+        }
+
+    });
+});

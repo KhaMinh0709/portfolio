@@ -1,0 +1,1622 @@
+(function () {
+    window.config = {
+        url: 'https://mirabot.tenten.vn', api: 'https://docsbot-live.gmosaas.net/', wss: 'wss://aibot-live.gmosaas.net/'
+    };
+    window.setting = {
+        "id": "1",
+        "bot": [
+            {
+                "t": 47,
+                "token": "Dx0z4Rqk6xQrBzPQYj2m3o1wnBeVakO3P1oEtqemGls2rhc22no8ey1UUCh0cbDwf2XmH9Cb3iP2ANpXAg4cqHeB9zOswVw9OxL0",
+                "service_tab": "mc-service-1",
+                "service_name": "bot-1"
+            },
+            {
+                "t": 57,
+                "token": "P90BxPg9z95QjeRXxKqZrQccBFpOnuIYBYwppMdHnzEQfjelItEVj3vUne5JMvxXIyL6M2neKtL5DztIr4PIL9Iu9eCM9SZDEB6D",
+                "service_tab": "mc-service-2",
+                "service_name": "bot-1"
+            },
+            {
+                "t": 127,
+                "token": "E6hrQ1sKCqHublIja56Rzze3srvB72OUE1bA4Ien7UodkQ1qmb4o17sMusthEkw1atBAlHFRgvVuTLHZbrr1Om95VpWDlGrK07aX",
+                "service_tab": "mc-service-2",
+                "service_name": "bot-2"
+            },
+            {
+                "t": 163,
+                "token": "qcRtezvJql0foOVmfMpvhBIVnsxYaI2hNxSEddLRLx6jDqk0pQTWlAg3ujxmcMCbWdYtmNEo9uiWtO3PnC4f1mxxHIyIpsZ9eykP",
+                "service_tab": "mc-service-3",
+                "service_name": "bot-1"
+            },
+            {
+                "t": 164,
+                "token": "bDaqyzaWrB4l45buU1fegsoSA9MzK4g6PxAjq6bNTaavqjBcfQN4y0QSk5kMgaoYrepXNBID7kXnh06vl8txsChHbwHbznJlTyl1",
+                "service_tab": "mc-service-3",
+                "service_name": "bot-2"
+            }
+        ],
+        "name": (typeof doc_bot_id !== 'undefined') ? doc_bot_id : '',
+        "email": (typeof doc_bot_email !== 'undefined') ? doc_bot_email : '',
+        "avt_chat": "ic_custom",
+        "ic_chat": "ic_custom",
+        "note": "Tr\u1ee3 gi\u00fap",
+        "first_message": "What can i help you with?\nI can help you with what?",
+        "type_noitisop": "1",
+        "bg_color": "#ea1b1b",
+        "bot_name": "Bot ID",
+        "brand_display": "1",
+        "brand_link": "https:\/\/tenten.vn\/mirabot",
+        "brand_name": "Powered by MiraBOT",
+        "show_source": "1",
+        "lang": "vi",
+        "chat_type": "changeStatusChatDocs",
+        "user_information": "0",
+        "width": "445",
+        "height": "670",
+        "icon": "https:\/\/docsbot.stg.gmosaas.net\/storage\/avatars\/\/mira-admin-ava-user_red (4).png",
+        "avatar": "https:\/\/docsbot.stg.gmosaas.net\/storage\/avatars\/\/woman-perfect-img.png.png"
+    }
+
+    makeBot();
+
+    function makeBot() {
+        let svg_avt;
+        let svg_ic;
+        let nt_type;
+        let user_info = '';
+        const link = window.config.url;
+
+        const div = document.createElement('div');
+
+        const languages = {
+            vi: {
+                today: "Hôm nay",
+                placeholder: "Tôi có thể giúp gì cho bạn?",
+                name: "Tên",
+                nameRequire: "Vui lòng nhập tên",
+                email: "Email",
+                emailRequire: "Vui lòng nhập emai",
+                phone: "Số điện thoại",
+                phoneRequire: "Vui lòng nhập số điện thoại",
+                start: "Bắt đầu",
+                message: "Tin nhắn",
+                messageRequire: "Vui lòng nhập tin nhắn",
+                back: "Quay lại",
+                send: "Gửi",
+                confirm: "Hệ thống đã tiếp nhận thông tin và sẽ liên lạc lại với quý khách sớm nhất có thể!",
+            }, en: {
+                today: "Today",
+                placeholder: "What can I do for you?",
+                name: "Name",
+                nameRequire: "Please enter a name",
+                email: "Email",
+                emailRequire: "Please enter email",
+                phone: "Phone number",
+                phoneRequire: "Please enter the phone number",
+                start: "Start",
+                message: "Message",
+                messageRequire: "Please enter message",
+                back: "Back",
+                send: "Send",
+                confirm: "The system has received the information and will contact you as soon as possible!",
+            }, jp: {
+                today: "今日",
+                placeholder: "お手伝いできることはありますか？",
+                name: "お名前",
+                nameRequire: "お名前を入力してください",
+                email: "メール",
+                emailRequire: "メールアドレスを入力してください",
+                phone: "電話番号",
+                phoneRequire: "電話番号を入力してください",
+                start: "始める",
+                message: "メッセージ",
+                messageRequire: "メッセージを入力してください",
+                back: "戻る",
+                send: "送信",
+                confirm: "システムは情報を受け取り、できるだけ早くお客様にご連絡いたします！",
+            },
+        };
+
+        div.id = 'tenten-iframe-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+
+        div.classList.add('tenten-iframe');
+
+        document.body.appendChild(div);
+
+        const style = document.createElement("style");
+
+        if (window.setting.type_noitisop === '0') {
+            nt_type = 'left';
+        } else {
+            nt_type = 'right';
+        }
+
+        const __ = function (key) {
+            if (languages[window.setting.lang] && languages[window.setting.lang][key]) {
+                return languages[window.setting.lang][key];
+            } else {
+                return ``;
+            }
+        }
+
+        const getCookie = function () {
+            const nameEQ = 'MiraBotIDClient415' + window.setting.id;
+            const cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1, cookie.length);
+                }
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return cookie.substring(nameEQ.length + 1, cookie.length);
+                }
+            }
+
+            return null;
+        }
+
+        const getCurrentTime = function () {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let amOrPm = hours >= 12 ? 'PM' : 'AM';
+
+            hours = hours % 12 || 12;
+
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+
+            return hours + ':' + minutes + ' ' + amOrPm;
+        }
+
+        let email = '';
+        let name = '';
+        let phone = '';
+        let client = '';
+        let token = '';
+        let bot_t = '';
+        let bot_token = '';
+        let status = '';
+        const cookie = getCookie();
+        if (window.setting.user_information === '1') {
+            const cookieValue = JSON.parse(decodeURIComponent(cookie));
+
+            if (!cookie || cookieValue.type === '0') {
+                user_info = 'active';
+            } else {
+                email = cookieValue.email;
+                name = cookieValue.name;
+                phone = cookieValue.phone;
+                client = cookieValue.client_id;
+                status = 'disabled';
+            }
+        }
+
+        style.innerHTML = ".tenten-iframe { position: fixed; right: 9px; bottom: 14px; z-index: 9999; }";
+
+        const head = document.head || document.getElementsByTagName("head")[0];
+
+        head.appendChild(style);
+
+        const iframe = document.createElement('iframe');
+        iframe.classList.add('iframe-tenten-bot');
+
+        iframe.style.border = 'none';
+
+        iframe.style.setProperty('width', `${window.setting.width}px`, 'important');
+        iframe.style.setProperty('height', `${window.setting.height}px`, 'important');
+
+        div.appendChild(iframe);
+
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        const ic_0 = '';
+        const ic_1 = 'bt-chatmira01.svg';
+        const ic_2 = 'bt-chatmira02.svg';
+        const ic_3 = 'bt-chatmira03.svg';
+        const ic_4 = 'bt-chatmira04.svg';
+        const ic_5 = 'chat-bot5.png';
+        const ic_7 = 'bt-chatmira07.svg';
+        const avt_0 = '';
+        const avt_1 = 'chat-bot1.svg';
+        const avt_2 = 'chat-bot2.svg';
+        const avt_3 = 'chat-bot3.svg';
+        const avt_4 = 'chat-bot4.svg';
+        const avt_5 = 'chat-bot5.png';
+
+        switch (window.setting.ic_chat) {
+            case 'ic_1':
+                svg_ic = 'src="' + link + '/assets/images/' + ic_1 + '"';
+                break;
+
+            case 'ic_2':
+                svg_ic = 'src="' + link + '/assets/images/' + ic_2 + '"';
+                break;
+
+            case 'ic_3':
+                svg_ic = 'src="' + link + '/assets/images/' + ic_3 + '"';
+                break;
+
+            case 'ic_4':
+                svg_ic = 'src="' + link + '/assets/images/' + ic_4 + '"';
+                break;
+
+            case 'ic_5':
+                svg_ic = 'src="' + link + '/assets/v2/images/' + ic_5 + '"';
+                break;
+
+            case 'ic_7':
+                svg_ic = 'src="' + link + '/assets/images/' + ic_7 + '"';
+                break;
+
+            case 'ic_custom':
+                svg_ic = 'src="' + window.setting.icon + '"';
+                break;
+
+            default:
+                svg_ic = ic_0;
+        }
+
+        switch (window.setting.avt_chat) {
+            case 'ic_1':
+                svg_avt = 'src="' + link + '/assets/images/' + avt_1 + '"';
+                break;
+
+            case 'ic_2':
+                svg_avt = 'src="' + link + '/assets/images/' + avt_2 + '"';
+                break;
+
+            case 'ic_3':
+                svg_avt = 'src="' + link + '/assets/images/' + avt_3 + '"';
+                break;
+
+            case 'ic_4':
+                svg_avt = 'src="' + link + '/assets/images/' + avt_4 + '"';
+                break;
+
+            case 'ic_5':
+                svg_avt = 'src="' + link + '/assets/v2/images/' + avt_5 + '"';
+                break;
+
+            case 'ic_custom':
+                svg_avt = 'src="' + window.setting.avatar + '"';
+                break;
+
+            default:
+                svg_avt = avt_0;
+        }
+
+        iframeDocument.open();
+        iframeDocument.write(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Chat Bot</title>
+            </head>
+            <body>
+            <div class="mc_chatbox_mirabot">
+                <div class="mc_btn_help_chatbox">
+                    <img alt="" class="show-help-chatbot"
+                         src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg">
+                    <img alt="" class="close-help-chatbot"
+                         src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023-close-icon.svg">
+                    <span>Trợ giúp</span>
+                </div>
+                <div class="mc_content_chatbox">
+                    <div class="mirabot_chatbox_142024">
+                        <div class="chatbox_142024_title">
+                            <div class="chatbox_142024_left">
+                                <figure><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg" alt=""><span class="chatbox_142024_active"></span></figure>
+                                <strong>Chat với chúng tôi</strong>
+                            </div>
+                            <div class="chatbox_142024_right">
+                                <figure class="chatbox_142024_close"><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023-close-icon.svg" alt=""></figure>
+                            </div>
+                        </div>
+                        <div class="chatbox_142024_general">
+                            <div class="mc_list_service">
+                                <ul>
+                                    <li service-tab="mc-service-1" data-number_bot="1"><a href="#">Tên miền</a></li>
+                                    <li service-tab="mc-service-2" data-number_bot="2"><a href="#">Hosting</a></li>
+                                    <li service-tab="mc-service-3" data-number_bot="3"><a href="#">Email</a></li>
+                                </ul>
+                            </div>
+                            <div class="chatbox_142024_form_bg">
+                                <div class="chatbox_142024_chatbot tenten-conversation" data-service_tab="default">
+                                    <div class="chatbox_142024_detailds">
+                                        <div class="chatbox_line_box bot_ans_chat">
+                                            <div class="mc_avatar_chatbox">
+                                                <figure><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg" alt=""></figure>
+                                            </div>
+                                            <div class="txt_chatbox_right">
+                                                <span class="txt_chatbox_date">${getCurrentTime()}</span>
+                                                <div class="chatbox_142024_inside">
+                                                    <p>Quý khách vui lòng chọn Dịch vụ</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chatbox_142024_chatbot" data-service_tab="mc-service-2">
+                                    <div class="chatbox_142024_detailds">
+                                        <div class="chatbox_line_box bot_ans_chat">
+                                            <div class="mc_avatar_chatbox">
+                                                <figure><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg" alt=""></figure>
+                                            </div>
+                                            <div class="txt_chatbox_right">
+                                                <span class="txt_chatbox_date">${getCurrentTime()}</span>
+                                                <div class="chatbox_142024_inside">
+                                                    <p>Vui lòng chọn dịch vụ Hosting/Email nếu bạn cần hỗ trợ!</p>
+                                                </div>
+                                                <div class="tab-content mirabot_current" id="mc-service-2">
+                                                    <ul class="mc_suggest_list">
+                                                        <li><a href="#" data-service_name="bot-1">SSD HOSTING + GEN HOSTING</a></li>
+                                                        <li><a href="#" data-service_name="bot-2">FAILOVER + SECUREWEB + SEOLOVER HOSTING</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chatbox_142024_chatbot" data-service_tab="mc-service-3">
+                                    <div class="chatbox_142024_detailds">
+                                        <div class="chatbox_line_box bot_ans_chat">
+                                            <div class="mc_avatar_chatbox">
+                                                <figure><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg" alt=""></figure>
+                                            </div>
+                                            <div class="txt_chatbox_right">
+                                                <span class="txt_chatbox_date">${getCurrentTime()}</span>
+                                                <div class="chatbox_142024_inside">
+                                                    <p>Vui lòng chọn dịch vụ Hosting/Email nếu bạn cần hỗ trợ!</p>
+                                                </div>
+                                                <div class="tab-content mirabot_current" id="mc-service-3">
+                                                    <ul class="mc_suggest_list">
+                                                        <li><a href="#" data-service_name="bot-1">EMAIL SERVER + ZSHIELD</a></li>
+                                                        <li><a href="#" data-service_name="bot-2">EMAIL PRO + PREMIUM</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chatbox_142024_importct">
+                                    <div class="importct_detailds">
+                                        <input class="importct_input mc_input_chatbox" id="data_chat_bot" placeholder="Nhập nội dung cần hỗ trợ" type="text" disabled>
+                                        <a class="importct_send loading-spinner" href="#"><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023-plane-icon.svg" alt=""></a>
+                                        <a class="importct_send mc_btn_send_chatbox_icon" href="#"><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023-plane-icon.svg" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </body>
+            </html>`);
+
+        let source_css = 'none';
+        if (window.setting.show_source === '1') {
+            source_css = 'table';
+        }
+        let brand_css = 'none';
+        if (window.setting.brand_display === '1') {
+            brand_css = 'block';
+        }
+        let btn_chatbox_gap = '10px';
+        if (window.setting.note.length === 0) {
+            btn_chatbox_gap = '0';
+        }
+
+        const cssRules = `* {box-sizing: border-box; }
+            .mc_source_link { word-break: break-all; }
+            .conversation_source { margin: 16px 0px 0px 0px; padding: 8px 16px; background: #E9E8E8; border-radius: 8px; }
+            .Sources-update1123 { display: table; font-weight: 700; cursor: pointer; position: relative; }
+            .source-list { display: none; margin-top: 10px; transition: width 2s ease-in-out; padding: 0; }
+            .source-list.active { display: block; }
+            .link-file-update1123 { color: #2B92E4; font-size: 14px; font-weight: 400; display: flex; gap: 8px; margin-bottom: 13px; overflow-x: hidden; text-overflow: ellipsis; }
+            .mc_txt_chatbox img { max-height: 20px; padding: 1.5px 5px; }
+            .mc_source_link { color: #2B92E4; font-size: 14px; word-break: break-all; }
+            .mc_txt_chatbox p { margin: 0; }
+            .mc_list_react_chat { font-size: 0; display: flex; margin-top: 20px; }
+            .mc_react_happy, .mc_react_unhappy { cursor: pointer; }
+            svg { font-size: 0; }
+            .mc_list_react_chat div svg { z-index: 2; }
+            .mc_list_react_chat div svg path { fill: #ccc; }
+            .mc_list_react_chat .mc_react_happy:hover svg path { fill: #08B94F; }
+            .mc_list_react_chat .mc_react_happy svg.active path { fill: #08B94F; }
+            .mc_list_react_chat .mc_react_unhappy:hover svg path { fill: #F90000; }
+            .mc_list_react_chat .mc_react_unhappy svg.active path { fill: #F90000; }
+            .mc_chatbox_mirabot { position: fixed; bottom: 0; right: 0; }
+            .mc_btn_help_chatbox { border-radius: 50px; background: #0066B2; padding: 15px; font-size: 18px; display: none; align-items: center; width: max-content; gap: 10px; color: #fff; cursor: pointer; min-width: 48px; }
+            .show-help-chatbot { width: 23px; }
+            .close-help-chatbot { display: none; }
+            .mc_content_chatbox { width: 326px; position: absolute; bottom: 70px; right: 0; }
+            .mc_chatbox_mirabot.active .mc_content_chatbox { bottom: 0px; }
+            img { max-width: 100%; }
+            .mirabot_chatbox_142024 .tab-content.mirabot_current { display: inherit; }
+            .mirabot_chatbox_142024 .tab-content { display: none; }
+            .mirabot_chatbox_142024 ul { list-style: none; }
+            .mirabot_chatbox_142024 { border-radius: 26px 26px 20px 20px !important; border: 4px solid #0066B2; max-width: 320px; width: 100%; background: #0066B2; font-family: 'Mulish', sans-serif; }
+            .mirabot_chatbox_142024 .chatbox_142024_title { border-radius: 20px 20px 0px 0px; background: #0066B2; display: flex; gap: 8px; align-items: center; padding: 16px 26px; justify-content: space-between; }
+            .mirabot_chatbox_142024 .chatbox_142024_title .chatbox_142024_left { display: flex; align-items: center; gap: 10px; color: #fff; }
+            .mirabot_chatbox_142024 .chatbox_142024_title .chatbox_142024_left strong { font-weight: 600; font-size: 15px; line-height: 23px; }
+            .mirabot_chatbox_142024 .chatbox_142024_title .chatbox_142024_left figure { width: 36px; height: 36px; line-height: 36px; background: #fff; border-radius: 50%; position: relative; max-width: 100%; margin: 0px; }
+            .mirabot_chatbox_142024 .chatbox_142024_title .chatbox_142024_left .chatbox_142024_active { width: 11px; height: 11px; border-radius: 50%; border: 2px solid #fff; background: #26C378; position: absolute; bottom: 0px; right: 0px; }
+            .mirabot_chatbox_142024 .chatbox_142024_title .chatbox_142024_left figure img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 25px; width: 100%; }
+            .mirabot_chatbox_142024 .chatbox_142024_title .chatbox_142024_right .chatbox_142024_close { cursor: pointer; margin: 0px; }
+            .mirabot_chatbox_142024 .mc_list_service .slick-prev:before { content: url(https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023-arr-left-service.svg); }
+            .mirabot_chatbox_142024 .mc_list_service .slick-next:before { content: url(https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023-arr-right-service.svg); }
+            .mirabot_chatbox_142024 .mc_list_service .slick-prev:before, .mirabot_chatbox_142024 .mc_list_service .slick-next:before { opacity: 1; font-size: inherit; }
+            .mirabot_chatbox_142024 .mc_list_service .slick-prev, .mirabot_chatbox_142024 .mc_list_service .slick-next { width: 8px; height: 16px; top: 50%; margin: -8px 0px 0px 0px; }
+            .mirabot_chatbox_142024 .mc_list_service .slick-prev { left: -18px; }
+            .mirabot_chatbox_142024 .mc_list_service .slick-next { right: -18px; }
+            .mirabot_chatbox_142024 .mc_list_service ul { border-radius: 90px; border: 4px solid #0066B2; background: #0066B2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0px; margin: 0; }
+            .mirabot_major_142024 .mc_list_service ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .mirabot_chatbox_142024 .mc_list_service ul li a { font-size:14px; color: #fff; font-weight: 600; text-align: center; padding: 10px 0px; margin: 0px auto; border-radius: 90px; display: inline-block; width: 100%; text-decoration: none; }
+            .mirabot_chatbox_142024 .mc_list_service li.mirabot_current a, .mirabot_chatbox_142024 .mc_list_service li a:hover { background: #fff; color: #0066B2; }
+            .mirabot_chatbox_142024 .chatbox_142024_general { border-radius: 20px 20px 17px 17px; background: #fff; }
+            .mirabot_chatbox_142024 .chatbox_142024_form_bg { padding: 0px 5px 0px 0px; }
+            .mirabot_chatbox_142024 .mc_list_service { padding: 20px 20px 0px 20px; }
+            .mirabot_chatbox_142024 .chatbox_142024_chatbot { height: 280px; overflow-y: scroll; padding: 0px 11px 0px 16px; margin: 24px 0px 0px 0px; display: none; }
+            .mirabot_chatbox_142024 .chatbox_142024_chatbot.tenten-conversation { display: block; }
+            .mirabot_chatbox_142024 .chatbox_142024_chatbot::-webkit-scrollbar { width: 4px; }
+            .mirabot_chatbox_142024 .chatbox_142024_chatbot::-webkit-scrollbar-track { background: #fff; }
+            .mirabot_chatbox_142024 .chatbox_142024_chatbot::-webkit-scrollbar-thumb { background-color: rgb(0 102 178 / 20%); border-radius: 90px; border: 90px solid rgb(0 102 178 / 20%); }
+            .mirabot_chatbox_142024 .chatbox_line_box { display: flex; gap: 16px; }
+            .mirabot_chatbox_142024 .mc_avatar_chatbox figure { width: 36px; height: 36px; line-height: 36px; background: #fff; border-radius: 50%; position: relative; max-width: 100%; border: 2px solid #EFEFEF; margin: 0px; }
+            .mirabot_chatbox_142024 .mc_avatar_chatbox figure img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 25px; width: 100%; }
+            .mirabot_chatbox_142024 .chatbox_line_box { margin: 0px 0px 24px 0px; }
+            .mirabot_chatbox_142024 .chatbox_142024_detailds > .chatbox_line_box:last-child { margin: 0px; }
+            .mirabot_chatbox_142024 .people_ask_chat { justify-content: flex-end; }
+            .mirabot_chatbox_142024 .txt_chatbox_date { font-size: 12px; line-height: 20px; margin: 0px 0px 8px 0px; display: block; }
+            .mirabot_chatbox_142024 .people_ask_chat .txt_chatbox_date { text-align: right; }
+            .mirabot_chatbox_142024 .chatbox_142024_inside { padding: 8px 16px; }
+            .mirabot_chatbox_142024 .chatbox_142024_inside p:last-child { margin: 0px; }
+            .mirabot_chatbox_142024 .bot_ans_chat .chatbox_142024_inside { font-size: 15px;line-height: 21px;background: rgb(235 240 244 / 60%); border-radius: 0px 10px 10px 10px; }
+            .mirabot_chatbox_142024 .people_ask_chat .chatbox_142024_inside { font-size: 15px;line-height: 21px;border-radius: 10px 0px 10px 10px; background: #0066B2; color: #fff; }
+            .mirabot_chatbox_142024 .mc_suggest_list { margin: 24px 0px 0px 0px; padding: 0px; }
+            .mirabot_chatbox_142024 .mc_suggest_list li { font-size: 14px; line-height: 22px; margin: 0px 0px 16px 0px; }
+            .mirabot_chatbox_142024 .mc_suggest_list > li:last-child { margin: 0px; }
+            .mirabot_chatbox_142024 .mc_suggest_list li a { color: #0066B2; display: inline-block; border-radius: 10px; border: 1px solid #0066B2; padding: 7px 15px; transition: all 0.3s; text-decoration: none; }
+            .mirabot_chatbox_142024 .mc_suggest_list li a:hover { background: #0066B2; color: #fff; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct { padding: 16px; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct .importct_detailds { position: relative; border-radius: 10px; border: 1px solid #B1C1CF; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct .importct_detailds input { padding: 12px 44px 12px 16px; border: none; border-radius: 10px; width: 100%; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct .importct_detailds input::placeholder { color: #B1C1CF; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct .importct_detailds input:focus { border: none; outline: none; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct .importct_detailds input:disabled { cursor: not-allowed; }
+            .mirabot_chatbox_142024 .chatbox_142024_importct .importct_detailds a { position: absolute; top: 56%; right: 16px; margin: -12px 0px 0px 0px; }
+            .tg_gap_nvkd_03062024 { margin: 10px 0px 0px 0px; }
+            .tg_gap_nvkd_03062024 em { color: #0066B2; display: inline-block; border-radius: 10px; border:1px solid #0066B2; padding: 5px 10px; transition: all 0.3s; font-style: normal; cursor: pointer; font-size: 14px; line-height: 22px; }
+            .tg_gap_nvkd_03062024:hover em { background: #0066B2; color: #fff; }
+            .loading-spinner { width: 18px; height: 18px; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+            .date-today1124 { font-size: 14px; font-weight: 400; line-height: 16px; letter-spacing: 0em; text-align: center; padding-top: inherit; }
+            .loading-spinner-history { width: 18px; height: 18px; border-radius: 50%; border: 4px solid rgba(231, 231, 231, 1); border-top: 4px solid #0066B2; animation: spin 1s linear infinite; margin-right: 5px; display: none; }
+            .loading-place { text-align: -webkit-center; padding-bottom: 10px; }
+            .mc_powerby_link { color:#0066B2; text-decoration:none; }
+            .mc_powerby_link:hover { color:#fff; }
+            @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+
+
+        const styleElement = iframeDocument.createElement('style');
+        styleElement.innerHTML = cssRules;
+
+        iframeDocument.head.appendChild(styleElement);
+
+        const scripts = function (setting, bot, config) {
+            function waitForElement(selector, parent = document, timeout = 10000) {
+                return new Promise((resolve, reject) => {
+                    const interval = 100;
+                    const timeoutTime = new Date().getTime() + timeout;
+
+                    const checkForElement = setInterval(() => {
+                        const element = parent.querySelector(selector);
+                        if (element) {
+                            clearInterval(checkForElement);
+                            resolve(element);
+                        } else if (new Date().getTime() > timeoutTime) {
+                            clearInterval(checkForElement);
+                            reject(new Error(`Element ${selector} not found within ${timeout}ms`));
+                        }
+                    }, interval);
+                });
+            }
+
+            // const divTenOpenButton = document.querySelector('.mc_btn_help_chatbox');
+            // const divTenOpenButton = parent.document.querySelector('.msg-item-mirabot');
+            // const divTenOpenButtonParent = divTenOpenButton.parentElement;
+
+            let divTenOpenButton;
+            let divTenOpenButtonParent;
+            waitForElement('.msg-item-mirabot', parent.document)
+                .then(newElement => {
+                    divTenOpenButton = newElement;
+                    divTenOpenButton.addEventListener('click', toggleChatBot);
+                    divTenOpenButtonParent = divTenOpenButton.parentElement;
+                })
+
+            const divTenOpenButtonPC = parent.document.querySelector('.computer-blocker');
+            const divTenCloseButton = document.querySelector('.chatbox_142024_close');
+            const buttonTenten = document.querySelector('.mc_btn_send_chatbox_icon');
+            let conversationElement;
+            const textarea = document.querySelector('.mc_input_chatbox');
+            const spinner = document.querySelector('.loading-spinner');
+            const iframe = parent.document.querySelector('iframe.iframe-tenten-bot');
+            const showHelpChatBot = document.querySelector('.show-help-chatbot');
+            const mcBtnHelpChatBox = document.querySelector('.mc_btn_help_chatbox span');
+            const closeHelpChatBot = document.querySelector('.close-help-chatbot');
+            const chatBoxFormBg = document.querySelector('.chatbox_142024_form_bg');
+
+            // let width = divTenOpenButton.clientWidth + 1;
+            // let height = divTenOpenButton.clientHeight + 2;
+            let width = 0;
+            let height = 0;
+            let language;
+            let miMiraBot;
+            let maMiraBot;
+            let chatUrl;
+            let ws;
+            let isWebSocket = false;
+            let isButtonEnabled = false;
+            let isSendingMessage = false;
+            let isConnectWebSocket = false;
+            let isClient = false;
+            let isReady = false;
+
+            const languages = {
+                vi: {
+                    today: "Hôm nay",
+                    placeholder: "Tôi có thể giúp gì cho bạn?",
+                    name: "Tên",
+                    nameRequire: "Vui lòng nhập tên",
+                    email: "Email",
+                    emailRequire: "Vui lòng nhập emai",
+                    phone: "Số điện thoại",
+                    phoneRequire: "Vui lòng nhập số điện thoại",
+                    start: "Bắt đầu",
+                    message: "Tin nhắn",
+                    messageRequire: "Vui lòng nhập tin nhắn",
+                    back: "Quay lại",
+                    send: "Gửi",
+                    confirm: "Hệ thống đã tiếp nhận thông tin và sẽ liên lạc lại với quý khách sớm nhất có thể!",
+                }, en: {
+                    today: "Today",
+                    placeholder: "What can I do for you?",
+                    name: "Name",
+                    nameRequire: "Please enter a name",
+                    email: "Email",
+                    emailRequire: "Please enter email",
+                    phone: "Phone number",
+                    phoneRequire: "Please enter the phone number",
+                    start: "Start",
+                    message: "Message",
+                    messageRequire: "Please enter message",
+                    back: "Back",
+                    send: "Send",
+                    confirm: "The system has received the information and will contact you as soon as possible!",
+                }, jp: {
+                    today: "今日",
+                    placeholder: "お手伝いできることはありますか？",
+                    name: "お名前",
+                    nameRequire: "お名前を入力してください",
+                    email: "メール",
+                    emailRequire: "メールアドレスを入力してください",
+                    phone: "電話番号",
+                    phoneRequire: "電話番号を入力してください",
+                    start: "始める",
+                    message: "メッセージ",
+                    messageRequire: "メッセージを入力してください",
+                    back: "戻る",
+                    send: "送信",
+                    confirm: "システムは情報を受け取り、できるだけ早くお客様にご連絡いたします！",
+                },
+            };
+
+            if (height < 53) {
+                height = 53;
+            }
+            iframe.style.setProperty('width', `${width}px`, 'important');
+            iframe.style.setProperty('height', `${height}px`, 'important');
+
+            switch (setting.lang) {
+                case 'en':
+                    language = 'en';
+                    break;
+
+                case 'jp':
+                    language = 'jp';
+                    break;
+
+                default:
+                    language = 'vi';
+            }
+
+            if (setting.ic_chat === 'ic_7') {
+                width = '84';
+                height = '88';
+            }
+
+            const getConversationElement = function () {
+                conversationElement = document.querySelector('.tenten-conversation');
+                const serviceTabValue = conversationElement.getAttribute('data-service_tab');
+
+                conversationElement.addEventListener('scroll', function () {
+                    if (conversationElement.scrollTop === 0) {
+                        if (client && id) {
+                            const page = parseInt(document.getElementById('begin_' + serviceTabValue).dataset.page) + 1;
+
+                            getHistory(page);
+                        }
+                    }
+                });
+            }
+
+            const __ = function (key) {
+                if (languages[setting.lang] && languages[setting.lang][key]) {
+                    return languages[setting.lang][key];
+                } else {
+                    return ``;
+                }
+            }
+
+            const getCurrentTime = function () {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                let amOrPm = hours >= 12 ? 'PM' : 'AM';
+
+                hours = hours % 12 || 12;
+
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                return hours + ':' + minutes + ' ' + amOrPm;
+            }
+
+            const createClient = function (data, type) {
+                const formData = {
+                    'email': data.email ?? '', 'name': data.name ?? '', 'phone': data.phone ?? ''
+                };
+                let url;
+                if (type === '1') {
+                    url = 'makeClient';
+                } else {
+                    url = 'makeClientAnonymous';
+                }
+
+                const apiUrl = config.api + "api/client/" + url;
+
+                let cookieValue = {};
+
+                const promises = setting.bot.map(bot => {
+                    const clientForm = {
+                        'email': data.email ?? '', 'name': data.name ?? '', 'phone': data.phone ?? '', 'bot_id': bot.t, 'bot_token': bot.token
+                    };
+                    return fetch(apiUrl, {
+                        method: "POST", headers: {
+                            "Content-Type": "application/json",
+                        }, body: JSON.stringify(clientForm),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.token && data.conversation_id && data.client_id) {
+                                return {
+                                    'client_id': data.client_id,
+                                    'conversation_id': data.conversation_id,
+                                    'token': data.token,
+                                    'service_tab': bot.service_tab,
+                                    'service_name': bot.service_name,
+                                    'bot_t': bot.t,
+                                    'bot_token': bot.token,
+                                };
+                            } else {
+                                throw new Error(__('errorMessage'));
+                            }
+                        });
+                });
+
+                Promise.all(promises)
+                    .then(results => {
+                        const cookieValue = results.reduce((acc, curr) => {
+                            acc.push(curr);
+                            return acc;
+                        }, []);
+
+                        updateClient(cookieValue, type, formData);
+                        isReady = true;
+                    })
+                    .catch(error => {
+                        const errorDiv = document.getElementById("msg_error");
+                        errorDiv.style.display = "block";
+                        errorDiv.innerText = error.message;
+                    });
+            }
+
+            // const createClientAnonymous = function () {
+            //     let data = {};
+            //
+            //     createClient(data, '0');
+            // }
+
+            if (setting.chat_type === 'changeStatusChatDocs') {
+                chatUrl = 'chatdocs';
+            } else {
+                chatUrl = 'chatbot';
+            }
+
+            const sendCustomerSupport = function (data) {
+                const apiUrl = config.api + "api/client/makeCustomerSupport";
+
+                fetch(apiUrl, {
+                    method: "POST", headers: {
+                        "Content-Type": "application/json",
+                    }, body: JSON.stringify(data),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const chatBoxForm = document.querySelector('.mc_chatbox_form');
+                        chatBoxForm.classList.remove('customer');
+                        chatBoxForm.classList.add('confirm');
+                    });
+            }
+
+            const inputPhone = document.getElementById("phone");
+            // inputPhone.addEventListener("input", function () {
+            //     inputPhone.value = inputPhone.value.replace(/\s/g, '');
+            // });
+
+            const inputSupportPhone = document.getElementById("support_phone");
+            // inputSupportPhone.addEventListener("input", function () {
+            //     inputSupportPhone.value = inputSupportPhone.value.replace(/\s/g, '');
+            // });
+
+            const connectWebSocket = function () {
+                const endpoint = config.wss + "api/v1/" + chatUrl + "/" + miMiraBot + "/" + maMiraBot + "/" + language;
+
+                ws = new WebSocket(endpoint);
+
+                let botChatText = '';
+                ws.onmessage = function (event) {
+                    const data = JSON.parse(event.data);
+                    isSendingMessage = true;
+
+                    if (data.sender === 'bot') {
+                        if (data.type === "start") {
+                            botChatText = '';
+
+                            const replyChatElement = generateChatElement(config.url, 1, '', bot.svg_avt);
+                            appendToConversation(replyChatElement);
+                        } else if (data.type === "stream") {
+                            const aiElements = conversationElement.querySelectorAll('.tenten-ai');
+                            const lastAiElement = aiElements[aiElements.length - 1];
+                            const p = lastAiElement.querySelector('.mc_txt_chatbox p');
+                            const process = lastAiElement.querySelector('.mc_txt_chatbox .msg_process');
+
+                            if (process) {
+                                process.remove();
+                            }
+
+                            if (data.message === "\n") {
+                                p.innerHTML += "<br>";
+                                botChatText += " <br>";
+                            } else {
+                                p.innerHTML += data.message;
+                                botChatText += data.message;
+                            }
+                        } else if (data.type === "info") {
+
+                        } else if (data.type === "end") {
+                            const aiElements = conversationElement.querySelectorAll('.tenten-ai');
+                            const lastAiElement = aiElements[aiElements.length - 1];
+                            const react = lastAiElement.querySelector('.mc_txt_chatbox .mc_react_chat');
+                            const source = lastAiElement.querySelector('.mc_txt_chatbox .mc_source_2410');
+                            const image = lastAiElement.querySelector('.mc_txt_chatbox .mc_image_2410');
+                            const p = lastAiElement.querySelector('.mc_txt_chatbox p');
+                            const businessElements = conversationElement.querySelectorAll('.tg_gap_nvkd_03062024');
+                            const lastBusinessElements = businessElements[businessElements.length - 1];
+
+                            if (data.message.source_qna_id) {
+                                react.innerHTML = generateChatElement(config.url, 3, data.message.source_qna_id, '');
+                            }
+
+                            if (data.message.image_urls && data.message.image_urls.length > 0) {
+                                (data.message.image_urls).forEach(function (index) {
+                                    image.innerHTML += generateChatElement(config.url, 6, index, '');
+                                });
+                            }
+
+                            if (setting.show_source === '1' && data.message.reference_link && data.message.reference_link.length > 0) {
+                                source.innerHTML = generateChatElement(config.url, 4, data.message.reference_link, '');
+                            }
+
+                            p.innerHTML = replacedLink(botChatText)
+
+                            businessElements.forEach(function (element) {
+                                element.innerHTML = '';
+                            });
+                            lastBusinessElements.innerHTML = generateChatElement('', 7, '', '');
+
+                            spinner.style.display = 'none';
+                            buttonTenten.style.display = 'block';
+                            buttonTenten.disabled = false;
+                            isSendingMessage = false;
+                        } else if (data.type === "error") {
+                            const aiElements = conversationElement.querySelectorAll('.tenten-ai');
+                            const lastAiElement = aiElements[aiElements.length - 1];
+                            const p = lastAiElement.querySelector('.mc_txt_chatbox p');
+
+                            p.innerHTML += data.message;
+                            spinner.style.display = 'none';
+                            buttonTenten.style.display = 'block';
+                            buttonTenten.disabled = false;
+                            isSendingMessage = false;
+                        }
+                    } else {
+                        const newChatElement = generateChatElement(config.url, 2, replacedLink(escapeHtml(data.message)), bot.svg_avt);
+                        appendToConversation(newChatElement);
+                    }
+                    conversationElement.scrollTop = conversationElement.scrollHeight;
+                }
+            }
+
+            const disconnectWebSocket = function () {
+                if (!isConnectWebSocket) {
+                    if (!isSendingMessage && ws && ws.readyState === WebSocket.OPEN) {
+                        ws.close();
+                    } else {
+                        setTimeout(disconnectWebSocket, 5000);
+                    }
+                }
+            }
+
+            const changeConnectWebSocket = function (serviceTab, serviceName) {
+                if (ws) {
+                    isConnectWebSocket = false;
+                    disconnectWebSocket();
+                    isConnectWebSocket = true;
+                }
+
+                const cookieValue = JSON.parse(decodeURIComponent(bot.cookie));
+                const targetBot = cookieValue.bot.find(bot => bot.service_tab === serviceTab && bot.service_name === serviceName);
+
+                miMiraBot = targetBot.conversation_id;
+                maMiraBot = targetBot.token;
+                client = targetBot.client_id;
+                token = targetBot.token;
+                bot_t = targetBot.bot_t;
+                bot_token = targetBot.bot_token;
+
+                connectWebSocket();
+            }
+
+            if (bot.cookie) {
+                const cookieValue = JSON.parse(decodeURIComponent(bot.cookie));
+
+                if (cookieValue && cookieValue.bot !== null && cookieValue.type !== null) {
+                    if (cookieValue.type === '1') {
+                        isWebSocket = true;
+                    }
+                } else {
+                    // createClientAnonymous();
+                }
+            } else {
+                if (setting.user_information === '0') {
+                    // createClientAnonymous();
+                }
+            }
+
+            const updateClient = function (value, type, formData) {
+                value.map(client => {
+                    const apiUrl = config.api + "api/client/updateConversationClient?conversation_id=" + client.conversation_id + '&client_id=' + client.client_id;
+
+                    fetch(apiUrl, {
+                        method: "POST", headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }).then();
+                });
+
+                // document.querySelector('.mc_chatbox_form').classList.remove('active');
+                createCookie(value, type, formData);
+            }
+
+            const createCookie = function (botValue, type, formData) {
+                const email = formData.email;
+                const name = formData.name;
+                const phone = formData.phone;
+
+                if (setting.user_information === '1') {
+                    document.getElementById("support_name").value = name;
+                    document.getElementById("support_name").disabled = true;
+                    document.getElementById("support_email").value = email;
+                    document.getElementById("support_email").disabled = true;
+                    document.getElementById("support_phone").value = phone;
+                    document.getElementById("support_phone").disabled = true;
+                }
+
+                const value = {
+                    'bot': botValue, 'client_id': id, 'type': type, 'email': email, 'name': name, 'phone': phone,
+                };
+
+                const expirationDate = new Date();
+                expirationDate.setFullYear(expirationDate.getFullYear() + 100);
+                const encodedValue = encodeURIComponent(JSON.stringify(value));
+
+                // document.cookie = 'MiraBotIDClient415' + setting.id + '=' + encodedValue + '; expires=' + expirationDate.toUTCString() + '; path=/';
+                if (setting.user_information === '1') {
+                    // connectWebSocket();
+                }
+                isWebSocket = true;
+                // client = id;
+                // getHistory();
+                bot.cookie = encodedValue;
+            }
+
+            let id = null;
+            const getHistory = function (page = 1) {
+                const elementHeight = conversationElement.scrollHeight;
+                const conversationDiv = document.querySelector('.tenten-conversation');
+                const serviceTabValue = conversationDiv.getAttribute('data-service_tab');
+                const loading = document.getElementById('loading_' + serviceTabValue);
+
+                loading.style.display = 'block';
+                const data = {
+                    'client_id': client, 'show_source': setting.show_source, 'bot_id': bot_t, 'bot_token': bot_token, 'token': token
+                };
+
+                if (id !== null) {
+                    data.id = id;
+                }
+
+                const apiUrl = config.api + "api/client/getClientHistory?page=" + page;
+
+                fetch(apiUrl, {
+                    method: "POST", headers: {
+                        "Content-Type": "application/json",
+                    }, body: JSON.stringify(data),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        let html
+                        for (const date in data) {
+                            if (date !== 'id' && Array.isArray(data[date])) {
+                                data[date].forEach(message => {
+                                    displayMessages(generateChatElement(config.url, 1, replacedLink(message.answer), setting.svg_avt), serviceTabValue);
+                                    displayMessages(generateChatElement(config.url, 2, replacedLink(message.question), setting.svg_avt, ''), serviceTabValue);
+
+                                    const firstAiElement = conversationElement.querySelector('.tenten-ai');
+                                    const react = firstAiElement.querySelector('.mc_txt_chatbox .mc_react_chat');
+                                    const source = firstAiElement.querySelector('.mc_txt_chatbox .mc_source_2410');
+                                    const image = firstAiElement.querySelector('.mc_txt_chatbox .mc_image_2410');
+
+                                    react.innerHTML = generateChatElement(config.url, 3, message.id, '');
+
+                                    if (message.images && message.images.length > 0) {
+                                        (message.images).forEach(function (index) {
+                                            image.innerHTML += generateChatElement(config.url, 6, index, '');
+                                        });
+                                    }
+
+                                    if (setting.show_source === '1' && message.sources.length > 0) {
+                                        source.innerHTML = generateChatElement(config.url, 4, message.sources, '');
+                                    }
+
+                                    const mcReactChat = react.querySelector('.mc_list_react_chat');
+                                    if (mcReactChat) {
+                                        if (message.reactions.join(', ') === '1') {
+                                            mcReactChat.querySelector('.mc_react_happy svg').classList.add('active');
+                                        } else if (message.reactions.join(', ') === '0') {
+                                            mcReactChat.querySelector('.mc_react_unhappy svg').classList.add('active');
+                                        }
+                                    }
+                                });
+
+                                html = `<div class="date-today1124">${date}</div>`;
+                                displayMessages(html, serviceTabValue);
+                            }
+                        }
+
+                        const elements = document.getElementsByClassName("msg_process");
+                        const elementsArray = Array.from(elements);
+                        elementsArray.forEach(function (element) {
+                            element.remove();
+                        });
+
+                        id = data.id;
+                        const messageList = document.getElementById('begin_' + serviceTabValue);
+                        messageList.setAttribute('data-page', page);
+
+                        const newHeight = conversationElement.scrollHeight;
+                        const targetHeight = newHeight - elementHeight;
+                        conversationElement.scrollTo(0, targetHeight);
+
+                        loading.style.display = 'none';
+                    });
+            }
+
+            const displayMessages = function (html, target) {
+                const messageList = document.getElementById('begin_' + target);
+                messageList.insertAdjacentHTML("afterend", html);
+            }
+
+            const addOrUpdateChatBox = function (serviceTab) {
+                const existingChatBox = document.querySelector(`.chatbox_142024_chatbot[data-service_tab="${serviceTab}"]`);
+
+                const allChatBoxes = document.querySelectorAll('.tenten-conversation');
+                allChatBoxes.forEach(chatterbox => {
+                    chatterbox.classList.remove('tenten-conversation');
+                });
+
+                if (existingChatBox) {
+                    existingChatBox.classList.add('tenten-conversation');
+                } else {
+                    const newChatBoxHTML = `<div class="chatbox_142024_chatbot tenten-conversation" data-service_tab="${serviceTab}">
+                            <div class="loading-place"><div id="loading_${serviceTab}" class="loading-spinner-history"></div></div>
+                            <div id="begin_${serviceTab}" data-page="1"></div>
+                            <div class="chatbox_142024_detailds">
+                                <div class="chatbox_line_box bot_ans_chat">
+                                    <div class="mc_avatar_chatbox">
+                                        <figure><img src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg" alt=""></figure>
+                                    </div>
+                                    <div class="txt_chatbox_right">
+                                        <span class="txt_chatbox_date">${getCurrentTime()}</span>
+                                        <div class="chatbox_142024_inside">
+                                            <p>Xin chào tôi có thể giúp gì cho bạn.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    chatBoxFormBg.insertAdjacentHTML('afterbegin', newChatBoxHTML);
+
+                    getHistory();
+                }
+
+                textarea.removeAttribute('disabled');
+            }
+
+            const disableInput = function () {
+                textarea.disabled = true;
+            }
+
+            // if (bot.client) {
+            //     getHistory();
+            // }
+
+            function toggleChatBot() {
+                if (!isClient) {
+                    isClient = true;
+                    if (setting.name && setting.email) {
+                        const data = {
+                            'email': setting.email,
+                            'name': setting.name,
+                            'phone': '099999999',
+                        };
+                        createClient(data, '1');
+                    } else {
+                        // createClientAnonymous();
+                    }
+                }
+
+                if (!isButtonEnabled) return;
+
+                const isOpen = divTenOpenButtonParent.classList.contains('active');
+
+                divTenOpenButton.style.display = isOpen ? 'flex' : 'none';
+                showHelpChatBot.style.display = isOpen ? 'block' : 'none';
+                mcBtnHelpChatBox.style.display = isOpen ? 'block' : 'none';
+                closeHelpChatBot.style.display = isOpen ? 'none' : 'inline';
+
+                if (isOpen) {
+                    divTenOpenButtonParent.classList.remove('active');
+                    iframe.style.setProperty('width', `${width}px`, 'important');
+                    iframe.style.setProperty('height', `${height}px`, 'important');
+                    isConnectWebSocket = false;
+                    disconnectWebSocket();
+                } else {
+                    if (setting.user_information === '0' || (setting.user_information === '1' && isWebSocket)) {
+                        isConnectWebSocket = true;
+                        if (!isSendingMessage && miMiraBot && maMiraBot) {
+                            connectWebSocket();
+                        }
+                    }
+                    divTenOpenButtonParent.classList.add('active');
+                    iframe.style.setProperty('width', `${setting.width}px`, 'important');
+                    iframe.style.setProperty('height', `${setting.height}px`, 'important');
+                    conversationElement.scrollTop = conversationElement.scrollHeight;
+                }
+            }
+
+            // divTenOpenButton.addEventListener('click', toggleChatBot);
+            divTenCloseButton.addEventListener('click', toggleChatBot);
+            divTenOpenButtonPC.addEventListener('click', toggleChatBot);
+
+            document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(function () {
+                    isButtonEnabled = true;
+                }, 1000);
+
+                getConversationElement();
+
+                document.querySelectorAll('.mc_list_service ul li').forEach(function (listItem) {
+                    listItem.addEventListener('click', function () {
+                        if (!isSendingMessage && isReady) {
+                            const serviceMain = this.closest('.mirabot_chatbox_142024');
+                            const serviceId = this.getAttribute('service-tab');
+                            const numberBot = listItem.dataset.number_bot;
+
+                            if (numberBot === '1') {
+                                changeConnectWebSocket(serviceId, 'bot-1');
+                            } else {
+                                if (ws) {
+                                    isConnectWebSocket = false;
+                                    disconnectWebSocket();
+                                    isConnectWebSocket = true;
+                                }
+                            }
+
+                            serviceMain.querySelectorAll('.mc_list_service ul li').forEach(function (item) {
+                                item.classList.remove('mirabot_current');
+                            });
+                            this.classList.add('mirabot_current');
+
+                            serviceMain.querySelectorAll('.tab-content').forEach(function (tab) {
+                                tab.classList.remove('mirabot_current');
+                            });
+                            const selectedTab = serviceMain.querySelector("#" + serviceId);
+                            if (selectedTab) {
+                                selectedTab.classList.add('mirabot_current');
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.mc_list_service ul li a').forEach(function (link) {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                    });
+                });
+
+                document.addEventListener("click", function (event) {
+                    // if (event.target.matches(".liveChatPopup")) {
+                    //     const liveChatPopup = parent.document.getElementById("liveChatPopup");
+                    //     if (liveChatPopup.style.display === "none" || liveChatPopup.style.display === "") {
+                    //         liveChatPopup.style.display = "block";
+                    //     } else {
+                    //         liveChatPopup.style.display = "none";
+                    //     }
+                    //
+                    //     const elements = parent.document.querySelectorAll('.lv2 [id*="b_"] div');
+                    //     elements.forEach(function (element) {
+                    //         element.click();
+                    //     });
+                    //
+                    //     liveChatPopup.style.display = "block";
+                    // }
+
+                    if (event.target.matches(".mc_list_service ul li a")) {
+                        if (!isSendingMessage && isReady) {
+                            const liElement = event.target.closest('li');
+                            if (liElement) {
+                                const serviceTab = liElement.getAttribute('service-tab');
+                                addOrUpdateChatBox(serviceTab);
+                            }
+
+                            const numberBot = liElement.dataset.number_bot;
+                            if (numberBot !== '1') {
+                                disableInput();
+                            }
+
+
+                            getConversationElement();
+                        }
+                    }
+
+                    if (event.target.matches(".tab-content ul li a")) {
+                        const botName = event.target.dataset.service_name;
+                        const serviceTab = document.querySelector("ul li.mirabot_current").getAttribute('service-tab');
+                        const tabName = serviceTab + '_' + botName;
+
+                        changeConnectWebSocket(serviceTab, botName);
+                        addOrUpdateChatBox(tabName);
+
+                        getConversationElement();
+                    }
+
+                    if (event.target.matches(".mc_list_react_chat svg")) {
+                        let selectedReaction = null;
+                        const reactionClass = event.target.closest(".mc_list_react_chat");
+                        const reactionDiv = event.target.closest(".mc_list_react_chat div");
+                        const dataId = reactionClass.dataset.id;
+
+                        event.target.classList.toggle("active");
+                        if (!event.target.classList.contains("active")) {
+                            selectedReaction = null;
+                        } else {
+                            if (reactionDiv.classList.contains("mc_react_happy")) {
+                                selectedReaction = 1;
+                            } else if (reactionDiv.classList.contains("mc_react_unhappy")) {
+                                // const generatedHTML = generateChatElement(config.link, 5, '', '');
+                                const currentHTML = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+                                const supportBox = currentHTML.nextElementSibling;
+
+                                if (supportBox && supportBox.classList.contains('mc_support_box')) {
+                                    if (supportBox.innerHTML.trim() === '') {
+                                        // supportBox.innerHTML += generatedHTML;
+                                        conversationElement.scrollTop = conversationElement.scrollHeight;
+                                    }
+                                }
+
+                                selectedReaction = 0;
+                            }
+                        }
+
+                        const siblings = event.target.parentNode.parentNode.children;
+                        for (const sibling of siblings) {
+                            if (sibling.querySelector('svg') !== event.target) {
+                                sibling.querySelector('svg').classList.remove("active");
+                            }
+                        }
+
+                        answerReaction(dataId, selectedReaction);
+                    }
+
+                    if (event.target.classList.contains('mc_source_link') || event.target.classList.contains('mc_powerby_link')) {
+                        event.preventDefault();
+
+                        const url = event.target.getAttribute("href");
+                        const message = {
+                            action: 'openNewTab', url: url
+                        };
+
+                        window.parent.postMessage(message, '*');
+                    }
+
+                    if (event.target.classList.contains('mc_form_btn')) {
+                        const input = ['name', 'email', 'phone'];
+                        let check = true;
+                        let data = {};
+
+                        const emailRegex = /^[a-zA-Z0-9](?:([a-zA-Z0-9.%+]*[a-zA-Z0-9])|(_[a-zA-Z0-9])|(-[a-zA-Z0-9]))*@([a-zA-Z0-9](?:([a-zA-Z0-9-]*[a-zA-Z0-9])|(_[a-zA-Z0-9])|(-[a-zA-Z0-9]))*\.)+[a-zA-Z]{2,}$/;
+                        const phoneRegex = /^[0-9]{9,12}$/;
+                        const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+                        input.forEach(function (inputId) {
+                            const inputElement = document.getElementById(inputId);
+                            const inputValue = inputElement.value;
+                            const errorMessageElement = inputElement.nextElementSibling;
+
+                            if (inputValue.trim() === '') {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validateEmpty');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else if (inputId === 'email' && !emailRegex.test(inputValue)) {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validateEmail');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else if (inputId === 'phone' && !phoneRegex.test(inputValue)) {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validatePhone');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else if (inputId === 'name' && specialCharsRegex.test(inputValue) || inputId === 'name' && inputValue.length < 3) {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validateString');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else {
+                                inputElement.classList.remove('error');
+                                errorMessageElement.textContent = "";
+                                errorMessageElement.style.display = 'none';
+                                data[inputId] = inputValue;
+                            }
+                        });
+
+                        if (check) {
+                            createClient(data, '1');
+                        }
+                    }
+
+                    if (event.target.classList.contains('mc_support_form_btn')) {
+                        const input = ['support_name', 'support_email', 'support_phone', 'support_message'];
+                        let check = true;
+                        let data = {
+                            'bot_id': setting.t
+                        };
+
+                        const emailRegex = /^[a-zA-Z0-9](?:([a-zA-Z0-9.%+]*[a-zA-Z0-9])|(_[a-zA-Z0-9])|(-[a-zA-Z0-9]))*@([a-zA-Z0-9](?:([a-zA-Z0-9-]*[a-zA-Z0-9])|(_[a-zA-Z0-9])|(-[a-zA-Z0-9]))*\.)+[a-zA-Z]{2,}$/;
+                        const phoneRegex = /^[0-9]{9,12}$/;
+                        const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+                        input.forEach(function (inputId) {
+                            const inputElement = document.getElementById(inputId);
+                            const inputValue = inputElement.value;
+                            const errorMessageElement = inputElement.nextElementSibling;
+
+                            if (inputValue.trim() === '') {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validateEmpty');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else if (inputId === 'support_email' && !emailRegex.test(inputValue)) {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validateEmail');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else if (inputId === 'support_phone' && !phoneRegex.test(inputValue)) {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validatePhone');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else if (inputId === 'support_name' && specialCharsRegex.test(inputValue) || inputId === 'support_name' && inputValue.length < 3) {
+                                inputElement.classList.add('error');
+                                errorMessageElement.textContent = __('validateString');
+                                errorMessageElement.style.display = 'block';
+                                check = false;
+                            } else {
+                                inputElement.classList.remove('error');
+                                errorMessageElement.textContent = "";
+                                errorMessageElement.style.display = 'none';
+                                data[inputId] = inputValue;
+                            }
+                        });
+
+                        if (check) {
+                            sendCustomerSupport(data);
+                            if (setting.user_information === '1') {
+                                const inputElement = document.getElementById('support_message');
+                                inputElement.value = "";
+                            } else {
+                                input.forEach(function (inputId) {
+                                    const inputElement = document.getElementById(inputId);
+                                    inputElement.value = "";
+                                });
+                            }
+                        }
+                    }
+
+                    if (event.target.classList.contains('mc_back_btn')) {
+                        const chatBoxForm = document.querySelector('.mc_chatbox_form');
+                        chatBoxForm.classList.remove('customer');
+                        const input = ['support_name', 'support_email', 'support_phone', 'support_message'];
+
+                        input.forEach(function (inputId) {
+                            const inputElement = document.getElementById(inputId);
+                            const errorMessageElement = inputElement.nextElementSibling;
+
+                            inputElement.classList.remove('error');
+                            errorMessageElement.textContent = "";
+                            errorMessageElement.style.display = 'none';
+                        });
+                    }
+
+                    if (event.target.classList.contains('mc_btn_send_form_icon')) {
+                        const chatBoxForm = document.querySelector('.mc_chatbox_form');
+                        chatBoxForm.classList.add('customer');
+                    }
+
+                    if (event.target.classList.contains('mc_confirm_back')) {
+                        const chatBoxForm = document.querySelector('.mc_chatbox_form');
+                        chatBoxForm.classList.remove('confirm');
+                    }
+
+                    if (event.target.classList.contains('Sources-update1123') || event.target.parentNode.classList.contains('Sources-update1123')) {
+                        const clickedElement = event.target.tagName.toLowerCase() === 'img' ? event.target.parentNode : event.target;
+                        const sourceList = clickedElement.parentNode.querySelector('.source-list');
+
+                        if (sourceList) {
+                            sourceList.classList.toggle('active');
+                        }
+                    }
+
+                    if (event.target.matches(".mc_image_2410 img")) {
+                        const imageUrl = event.target.src;
+                        const width = 600;
+                        const height = window.innerHeight - 50;
+                        const left = (window.innerWidth) / 2;
+                        const top = (window.innerHeight - height) / 2;
+                        const popup = window.open(imageUrl, "_blank", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+                        if (popup) {
+                            popup.focus();
+                        }
+                    }
+                });
+            });
+
+            const escapeHtml = function (text) {
+                const div = document.createElement('div');
+                div.innerText = text;
+                return div.innerHTML;
+            }
+
+            const replacedLink = function (text) {
+                return text.replace(/(https?:\/\/\S+)/g, '<a class="mc_source_link" href="$1">$1</a>');
+            }
+
+            const answerReaction = function (dataId, selectedReaction) {
+                const apiUrl = config.api + "api/" + miMiraBot + "/messages/" + dataId;
+
+                const requestData = {
+                    action: selectedReaction,
+                };
+
+                fetch(apiUrl, {
+                    method: "PUT", headers: {
+                        "Content-Type": "application/json",
+                    }, body: JSON.stringify(requestData),
+                }).then();
+            }
+
+            const appendToConversation = function (htmlContent) {
+                if (conversationElement) {
+                    conversationElement.innerHTML += htmlContent;
+                }
+            };
+
+            const generateChatElement = function (link, type, message, svg_avt, time = getCurrentTime()) {
+                switch (type) {
+                    case 1:
+                        return `
+                        <div class="chatbox_line_box bot_ans_chat tenten-ai">
+                            <div class="mc_avatar_chatbox">
+                                <figure><img alt="" src="https://img.tenten.vn/t/new-2023/admin-mira-bot-14122023-ver2/images/bot-chat-11232023.svg"></figure>
+                            </div>
+                            <div class="txt_chatbox_right">
+                                <div class="chatbox_142024_inside mc_txt_chatbox">
+                                    <img class="msg_process" src="${link}/assets/images/tg_loading_22112023.gif" alt="">
+                                    <p>${message}</p>
+                                    <div class="mc_image_2410"></div>
+                                    <div class="mc_source_2410"></div>
+                                    <div class="mc_react_chat"></div>
+                                </div>
+                                <div class="tg_gap_nvkd_03062024"></div>
+                            </div>
+                        </div>
+                        <div class="mc_support_box"></div>
+                        `
+
+                    case 2:
+                        return `
+                        <div class="chatbox_line_box people_ask_chat">
+                            <div class="txt_chatbox_right">
+                                <span class="txt_chatbox_date">${time}</span>
+                                <div class="chatbox_142024_inside">
+                                    <p>${message}</p>
+                                </div>
+                            </div>
+                        </div>
+                        `
+
+                    case 3:
+                        return `
+                        <div class="mc_list_react_chat" data-id="${message}">
+                            <div class="mc_react_happy">
+                                <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.9834 10.1234L15.4908 10.0382L15.4908 10.0382L15.9834 10.1234ZM15.5131 12.8432L15.0204 12.758L15.0204 12.758L15.5131 12.8432ZM6.62518 15.6513L6.12704 15.6944L6.12704 15.6944L6.62518 15.6513ZM6.08374 9.38952L6.58188 9.34645L6.58188 9.34645L6.08374 9.38952ZM11.33 5.48087L11.8234 5.56171L11.8234 5.56171L11.33 5.48087ZM10.8882 8.17724L11.3816 8.25808L11.3816 8.25808L10.8882 8.17724ZM6.46543 8.45158L6.13903 8.07281L6.13903 8.07281L6.46543 8.45158ZM7.42459 7.62505L7.75098 8.00382L7.75098 8.00382L7.42459 7.62505ZM9.01204 5.18908L8.52805 5.06353L8.52805 5.06353L9.01204 5.18908ZM9.32917 3.96651L9.81316 4.09206L9.81316 4.09206L9.32917 3.96651ZM10.4451 3.37615L10.2921 3.85219L10.2921 3.85219L10.4451 3.37615ZM10.5417 3.4072L10.6946 2.93116L10.6946 2.93116L10.5417 3.4072ZM8.57463 6.30833L9.01566 6.54391L9.01566 6.54391L8.57463 6.30833ZM11.2698 4.16494L10.7858 4.29048L10.7858 4.29048L11.2698 4.16494ZM9.7828 3.42151L9.56575 2.97108L9.56575 2.97108L9.7828 3.42151ZM4.64773 16.3137L4.14959 16.3568L4.14959 16.3568L4.64773 16.3137ZM4 8.82272L4.49814 8.77965C4.47507 8.51288 4.24595 8.31164 3.97844 8.32318C3.71093 8.33473 3.5 8.55496 3.5 8.82272H4ZM15.4908 10.0382L15.0204 12.758L16.0058 12.9284L16.4761 10.2086L15.4908 10.0382ZM10.83 16.1666H7.7309V17.1666H10.83V16.1666ZM7.12332 15.6082L6.58188 9.34645L5.5856 9.43259L6.12704 15.6944L7.12332 15.6082ZM15.0204 12.758C14.6825 14.7117 12.9209 16.1666 10.83 16.1666V17.1666C13.3808 17.1666 15.5805 15.3873 16.0058 12.9284L15.0204 12.758ZM10.8365 5.40002L10.3948 8.0964L11.3816 8.25808L11.8234 5.56171L10.8365 5.40002ZM6.79182 8.83035L7.75098 8.00382L7.09819 7.24628L6.13903 8.07281L6.79182 8.83035ZM9.49602 5.31463L9.81316 4.09206L8.84519 3.84096L8.52805 5.06353L9.49602 5.31463ZM10.2921 3.85219L10.3888 3.88324L10.6946 2.93116L10.598 2.90012L10.2921 3.85219ZM9.01566 6.54391C9.22363 6.15457 9.38511 5.74218 9.49602 5.31463L8.52805 5.06353C8.43715 5.41397 8.30466 5.75254 8.13361 6.07275L9.01566 6.54391ZM10.3888 3.88324C10.5931 3.94887 10.7381 4.10664 10.7858 4.29048L11.7538 4.03939C11.6168 3.51138 11.2126 3.09757 10.6946 2.93116L10.3888 3.88324ZM9.81316 4.09206C9.8365 4.00205 9.9015 3.91934 9.99985 3.87195L9.56575 2.97108C9.21109 3.14198 8.94468 3.45743 8.84519 3.84097L9.81316 4.09206ZM9.99985 3.87195C10.0897 3.82866 10.1954 3.82113 10.2921 3.85219L10.598 2.90012C10.2582 2.79095 9.88748 2.81605 9.56575 2.97108L9.99985 3.87195ZM11.4358 9.32272H14.8899V8.32272H11.4358V9.32272ZM5.14587 16.2707L4.49814 8.77965L3.50186 8.86579L4.14959 16.3568L5.14587 16.2707ZM4.5 16.3417V8.82272H3.5V16.3417H4.5ZM4.14959 16.3568C4.1408 16.2551 4.22097 16.1666 4.32447 16.1666V17.1666C4.80846 17.1666 5.18748 16.7519 5.14587 16.2707L4.14959 16.3568ZM11.8234 5.56171C11.9064 5.05496 11.8827 4.53643 11.7538 4.03939L10.7858 4.29048C10.8798 4.65274 10.8971 5.03067 10.8365 5.40002L11.8234 5.56171ZM7.7309 16.1666C7.41496 16.1666 7.15068 15.9246 7.12332 15.6082L6.12704 15.6944C6.19901 16.5267 6.89513 17.1666 7.7309 17.1666V16.1666ZM7.75098 8.00382C8.20422 7.61325 8.69277 7.14837 9.01566 6.54391L8.13361 6.07275C7.90269 6.50503 7.535 6.86987 7.09819 7.24628L7.75098 8.00382ZM16.4761 10.2086C16.6463 9.22426 15.8894 8.32272 14.8899 8.32272V9.32272C15.2676 9.32272 15.5555 9.66385 15.4908 10.0382L16.4761 10.2086ZM4.32447 16.1666C4.42195 16.1666 4.5 16.2455 4.5 16.3417H3.5C3.5 16.7968 3.86859 17.1666 4.32447 17.1666V16.1666ZM10.3948 8.09639C10.2896 8.73829 10.7844 9.32272 11.4358 9.32272V8.32272C11.4025 8.32272 11.376 8.29259 11.3816 8.25808L10.3948 8.09639ZM6.58188 9.34645C6.56493 9.15047 6.64317 8.95845 6.79182 8.83035L6.13903 8.07281C5.74681 8.41079 5.541 8.91678 5.5856 9.43259L6.58188 9.34645Z" fill="#1EA208"></path>
+                                </svg>
+                            </div>
+                            <div class="mc_react_unhappy">
+                                <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.9834 9.87662L15.4908 9.96182L15.4908 9.96182L15.9834 9.87662ZM15.5131 7.15678L15.0204 7.24198L15.0204 7.24198L15.5131 7.15678ZM6.62518 4.3487L6.12704 4.30563L6.12704 4.30563L6.62518 4.3487ZM6.08374 10.6105L6.58188 10.6536L6.58188 10.6536L6.08374 10.6105ZM11.33 14.5191L11.8234 14.4383L11.8234 14.4383L11.33 14.5191ZM10.8882 11.8228L11.3816 11.7419L11.3816 11.7419L10.8882 11.8228ZM6.46543 11.5484L6.13903 11.9272L6.13903 11.9272L6.46543 11.5484ZM7.42459 12.375L7.75098 11.9962L7.75098 11.9962L7.42459 12.375ZM9.01204 14.8109L8.52805 14.9365L8.52805 14.9365L9.01204 14.8109ZM9.32917 16.0335L9.81316 15.9079L9.81316 15.9079L9.32917 16.0335ZM10.4451 16.6238L10.2921 16.1478L10.2921 16.1478L10.4451 16.6238ZM10.5417 16.5928L10.6946 17.0688L10.6946 17.0688L10.5417 16.5928ZM8.57463 13.6917L9.01566 13.4561L9.01566 13.4561L8.57463 13.6917ZM11.2698 15.8351L10.7858 15.7095L10.7858 15.7095L11.2698 15.8351ZM9.7828 16.5785L9.56575 17.0289L9.56575 17.0289L9.7828 16.5785ZM4.64773 3.68627L4.14959 3.6432L4.14959 3.6432L4.64773 3.68627ZM4 11.1773L4.49814 11.2204C4.47507 11.4871 4.24595 11.6884 3.97844 11.6768C3.71093 11.6653 3.5 11.445 3.5 11.1773H4ZM15.4908 9.96182L15.0204 7.24198L16.0058 7.07158L16.4761 9.79142L15.4908 9.96182ZM10.83 3.83342H7.7309V2.83342H10.83V3.83342ZM7.12332 4.39177L6.58188 10.6536L5.5856 10.5674L6.12704 4.30563L7.12332 4.39177ZM15.0204 7.24198C14.6825 5.28826 12.9209 3.83342 10.83 3.83342V2.83342C13.3808 2.83342 15.5805 4.61272 16.0058 7.07158L15.0204 7.24198ZM10.8365 14.6L10.3948 11.9036L11.3816 11.7419L11.8234 14.4383L10.8365 14.6ZM6.79182 11.1697L7.75098 11.9962L7.09819 12.7537L6.13903 11.9272L6.79182 11.1697ZM9.49602 14.6854L9.81316 15.9079L8.84519 16.159L8.52805 14.9365L9.49602 14.6854ZM10.2921 16.1478L10.3888 16.1168L10.6946 17.0688L10.598 17.0999L10.2921 16.1478ZM9.01566 13.4561C9.22363 13.8454 9.38511 14.2578 9.49602 14.6854L8.52805 14.9365C8.43715 14.586 8.30466 14.2475 8.13361 13.9273L9.01566 13.4561ZM10.3888 16.1168C10.5931 16.0511 10.7381 15.8934 10.7858 15.7095L11.7538 15.9606C11.6168 16.4886 11.2126 16.9024 10.6946 17.0688L10.3888 16.1168ZM9.81316 15.9079C9.8365 15.9979 9.9015 16.0807 9.99985 16.1281L9.56575 17.0289C9.21109 16.858 8.94468 16.5426 8.84519 16.159L9.81316 15.9079ZM9.99985 16.1281C10.0897 16.1713 10.1954 16.1789 10.2921 16.1478L10.598 17.0999C10.2582 17.2091 9.88748 17.1839 9.56575 17.0289L9.99985 16.1281ZM11.4358 10.6773H14.8899V11.6773H11.4358V10.6773ZM5.14587 3.72934L4.49814 11.2204L3.50186 11.1342L4.14959 3.6432L5.14587 3.72934ZM4.5 3.65825V11.1773H3.5V3.65825H4.5ZM4.14959 3.6432C4.1408 3.74489 4.22097 3.83342 4.32447 3.83342V2.83342C4.80846 2.83342 5.18748 3.24815 5.14587 3.72934L4.14959 3.6432ZM11.8234 14.4383C11.9064 14.945 11.8827 15.4636 11.7538 15.9606L10.7858 15.7095C10.8798 15.3473 10.8971 14.9693 10.8365 14.6L11.8234 14.4383ZM7.7309 3.83342C7.41496 3.83342 7.15068 4.07543 7.12332 4.39177L6.12704 4.30563C6.19901 3.47325 6.89513 2.83342 7.7309 2.83342V3.83342ZM7.75098 11.9962C8.20422 12.3867 8.69277 12.8516 9.01566 13.4561L8.13361 13.9273C7.90269 13.495 7.535 13.1301 7.09819 12.7537L7.75098 11.9962ZM16.4761 9.79142C16.6463 10.7757 15.8894 11.6773 14.8899 11.6773V10.6773C15.2676 10.6773 15.5555 10.3361 15.4908 9.96182L16.4761 9.79142ZM4.32447 3.83342C4.42195 3.83342 4.5 3.75446 4.5 3.65825H3.5C3.5 3.20324 3.86859 2.83342 4.32447 2.83342V3.83342ZM10.3948 11.9036C10.2896 11.2617 10.7844 10.6773 11.4358 10.6773V11.6773C11.4025 11.6773 11.376 11.7074 11.3816 11.7419L10.3948 11.9036ZM6.58188 10.6536C6.56493 10.8495 6.64317 11.0416 6.79182 11.1697L6.13903 11.9272C5.74681 11.5892 5.541 11.0832 5.5856 10.5674L6.58188 10.6536Z" fill="#F90000"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    `
+                    case 4:
+                        let html = `<div class="conversation_source"><strong class="Sources-update1123">Sources<img class="" src="${link}/assets/v2/images/mirabot-14122023-arr-converbox-icon.svg" alt=""></strong><ul class="source-list">`;
+                        const links = message;
+                        const hasLinks = Array.isArray(links) && links.length > 0;
+                        const fileNameCheck = /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9]+$/;
+
+                        if (hasLinks) {
+                            links.forEach(function (linkDocument) {
+                                const fileName = linkDocument.substring(linkDocument.lastIndexOf('/') + 1);
+                                if (fileNameCheck.test(fileName)) {
+                                    html += `
+                                        <li class="link-file-update1123">
+                                            <img alt="" src="${link}/assets/images/file-update11232023.svg">
+                                            <a class="mc_source_link" href="${linkDocument}">${fileName}</a>
+                                        </li>
+                                    `
+                                } else {
+                                    html += `
+                                        <li class="link-file-update1123">
+                                            <img alt="" src="${link}/assets/images/link-update11232023.svg">
+                                            <a class="mc_source_link" href="${linkDocument}">${linkDocument}</a>
+                                        </li>
+                                    `
+                                }
+                            });
+                        }
+
+                        html += `</ul></div>`;
+
+                        return html;
+                    case 5:
+                        return `
+                        <div class="mc_support_box">
+                           <div class="mc_spbox_inner mc_txt_chatbox">
+                               <span>${__('unsatisfied')}</span>
+                               <a class="mc_btn_send_form_icon" href="#">
+                                   ${__('contactUs')}
+                                   <img alt="" src="${link}assets/images/contact-update-1124.svg">
+                               </a>
+                           </div>
+                       </div>
+                    `
+
+                    case 6:
+                        return `
+                        <img alt="" src="${message}">
+                    `
+
+                    case 7:
+                        return `
+                        <em class="liveChatPopup"><a class="mc_powerby_link" href="https://zalo.me/925364523540055953">Gặp nhân viên kinh doanh</a></em>
+                    `
+                }
+            };
+
+            const generateReplyElement = function (msg) {
+                ws.send(msg);
+            }
+
+            buttonTenten.addEventListener('click', async function () {
+                const textareaValue = textarea.value;
+
+                if (textareaValue.trim() !== '') {
+                    messageProcessing(textareaValue);
+                }
+            });
+
+            const textarea_input = document.getElementById("data_chat_bot");
+            textarea_input.addEventListener("keydown", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    const textareaValue = textarea.value;
+
+                    if (textareaValue.trim() !== '') {
+                        messageProcessing(textareaValue);
+                    }
+                }
+            });
+
+            const messageProcessing = function ($msg) {
+                buttonTenten.disabled = true;
+                spinner.style.display = 'block';
+                buttonTenten.style.display = 'none';
+                textarea.value = '';
+                conversationElement.scrollTop = conversationElement.scrollHeight;
+                generateReplyElement($msg);
+            }
+        };
+
+        window.bot = {
+            "svg_ic": svg_ic, "svg_avt": svg_avt, "cookie": cookie, "client": client,
+        }
+
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+
+        script.textContent = '(' + scripts.toString() + ')(' + JSON.stringify(window.setting) + ', ' + JSON.stringify(window.bot) + ', ' + JSON.stringify(window.config) + ');';
+
+        iframeDocument.body.appendChild(script);
+
+        iframeDocument.close();
+    }
+
+    window.addEventListener('message', function (event) {
+        if (event.data.action === 'openNewTab') {
+            const newTab = window.open(event.data.url, '_blank');
+            newTab.focus();
+        }
+    });
+})();

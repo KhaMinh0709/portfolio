@@ -1,0 +1,211 @@
+.buyDnssec{
+    background: #fff;
+    border: none;
+}
+#renew_multi_domain button{
+    color: #fff;
+    background: #1E87D7;
+    border: 1px solid #1E87D7;
+    font-size: 15px;
+    line-height: 18px;
+    font-family: rbt_bold;
+    display: inline-block;
+    border-radius: 6px;
+    padding: 12px 14px;
+}
+.convert_excel{    
+    margin: 0px 0px 20px 0px;
+    border-radius: 5px;
+}
+.buy-service-domain {
+    cursor: pointer;
+}
+#form_renew .form-group label,
+.form-sell-domain-name .form-group label{
+    width: 25%;
+}
+[class*="tb_list_"] table td , [class*="tb_list_"] table th{
+    border: 1px solid #e6e6e6;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+}
+
+[class*="tb_list_"] table tbody tr>td:nth-child(2) {
+    padding: 8px !important;
+    font-size: 15px !important;
+    font-family: rbt !important;
+}
+.modal{
+    font-size: 15px;
+    line-height: 1.42857143;
+    z-index: 10000;
+}
+[class*="bvtk_"] .note_submit i {
+    font-size: 15px;
+    line-height: 23px;
+    display: block;
+}
+[class*="bvtk_"] .form-group .list_group input {
+    width: 79%;
+    border: 1px solid #cdcdcd;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 15px;
+}
+[class*="bvtk_"] .form-group .list_group label {
+    width: 20%;
+    font-size: 15px;
+}
+[class*="bvtk_"] .form-group .list_group p {
+    position: absolute;
+    right: -19px;
+    margin: 0px;
+    color: red;
+    top: 8px;
+}
+[class*="bvtk_"] .form-group .list_group {
+    max-width: 812px !important;
+    width: 100%;
+    position: relative;
+    margin: 0px 0px 20px 0px;
+}
+[class*="bvtk_"] .button-dl {
+    color: #fff !important;
+    display: inline-block;
+    background: #1e87d7;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 30px 8px 30px;
+    border-radius: 20px;
+    margin: 0px 5px 0px 5px;
+    border: #1e87d7;
+}
+.errorNs{
+    color : red;
+    margin: 4px 0px 0px 21%;
+}
+@media (max-width: 768px){
+    .errorNs{
+        color : red;
+        margin: 4px 0px 0px 0px;
+    }
+    [class*="bvtk_"] .form-group .list_group p {
+        top: 36px;
+        right : 10px;
+    }
+}
+[class*="bvtk_"] .note_submit input[type="button"] {
+    display: inline-block;
+    margin: 20px 0px 0px 0px;
+    background: #ff6600;
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 15px 10px;
+    border-radius: 5px;
+    max-width: 210px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 700;
+    border-bottom: 3px solid #b74900;
+}
+[class*="bvtk_"] .textwidget p {
+    font-size:12px!important;
+    margin:4px 0;
+    display:inline-block;
+    width:100%;
+    border-bottom:solid 1px #ececec;
+    background:#f7f7f7;
+    padding:0 10px;
+}
+[class*="bvtk_"] .textwidget p a{
+    background: #1e87d7;
+    color: #fff;
+    border-radius: 3px;
+    font: 12px roboto;
+    padding: 3px 8px;
+    float: right;
+    margin: 5px 90px 5px 0;
+}
+.buy_qb_choice_box{
+    position: relative !important;
+    z-index: unset !important;
+}
+.buy_qb_choice_box ul li a{
+    text-align: left;
+}
+.span_domain_name{
+    display: none;
+}
+.a_detai_domain{
+    font-size: 15px;
+    color: #000000;
+    padding: 5px 0px 5px 31px;
+    display: block;
+    background: #fff;
+    border: none;
+    text-align: left;
+    width: 100%;
+}
+input[type="submit"].a_detai_domain:hover{
+    color: #fff;
+    background: #2697FF;
+}
+.qb_qldvtm_page .domain_name_service_management_ct .domain_name_service_management_detailds{
+    margin: 0px 0px 20px 0px;
+}
+@media (min-width: 1300px){
+    .qb_qldvtm_page .domain_name_service_management_ct table tbody tr>td:nth-child(4) {
+        min-width: 130px;
+        padding: 0 !important;
+    }
+    .qb_qldvtm_page .domain_name_service_management_ct table tbody tr>td:nth-child(5) {
+        min-width: 120px;
+        padding: 0 !important;
+    }
+    .qb_qldvtm_page .domain_name_service_management_ct table tbody tr>td.buy_qb_choice_box {
+        min-width: 120px;
+        padding: 0 !important;
+    }
+}
+@media (max-width: 1024px){
+    .qb_input_mb thead>tr>th:nth-child(1):before {
+        content: "";
+    }
+    .span_domain_name{
+        display: initial;
+    }
+}
+@media (max-width: 991px){
+    [class*="bvtk_"] .textwidget p a{
+        margin-right:0
+    }
+
+    [class*="bvtk_"] .form-group .list_group input {
+        width: 100%;
+        border: 1px solid #cdcdcd;
+        border-radius: 5px;
+        padding: 7px 10px;
+        font-size: 15px;
+    }
+    [class*="bvtk_"] .form-group .list_group label {
+        width: 100%;
+        font-size: 15px;
+    }
+    .buy_qb_choice_box{
+        position: relative !important;
+        z-index: 1 !important;
+    }
+}
+@media (min-width: 1601px){
+    .qb_qldvtm_main_page .qb_tknc_box .lsdt_tknc_ct strong{
+        width: 20%;
+        padding: 0px;
+        margin: 45px 0px 0px 0px;
+    }
+    .qb_qldvtm_page.qb_qldvtm_main_page .qb_tknc_box .lsdt_tknc_ct .tknc_form .list_group{
+        max-width: 200px !important;
+        margin: 0px 15px 20px 0px !important;
+    }
+}

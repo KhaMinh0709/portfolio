@@ -1,0 +1,432 @@
+jQuery(document).on('click', '.tknc_btn button[type=submit]', function(event) {
+	event.preventDefault();
+	searchDomain();
+});
+//search
+function searchDomain(date = ''){
+	var record = ($('#record').val() != '') ? $('#record').val() : null;
+	var domainName = ($('#domainName').val() != '') ? $('#domainName').val() : null;
+	var status = ($('#status').val() != '') ? $('#status').val() : null;
+	var domainType = ($('#domainType').val() != '') ? $('#domainType').val() : null;
+	var start_date = ($('#start_date').val() != '') ? $('#start_date').val() : null;
+	var end_date = ($('#end_date').val() != '') ? $('#end_date').val() : null;
+	var flgSExp = ($('#flgSexp').val() != '') ? $('#flgSexp').val() : null;
+	var autoRenew = ($('#auto_renew').val() != '') ? $('#auto_renew').val() : null;
+	var csrfToken = $('input[name="_csrfToken"]').val();
+	var url = '/Domain/seachDomain';
+    var dataPost = {
+    	domainName : domainName,
+		domainType : domainType,
+		start_date : start_date,
+		end_date : end_date,
+		status : status,
+		flgSExp : flgSExp,
+		limit : record,
+        date : date,
+		autoRenew : autoRenew
+    };
+    var type = 'html';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method, csrfToken, 1).then(res => {
+        $('.domain_name_service_management_ct .mobile_interface').html(res);
+        $('#record>[value='+record+']').attr('selected',true);
+        sroll_search();
+    });
+}
+
+jQuery(function() {
+    jQuery('.date').datetimepicker({format: 'YYYY-MM-DD'});
+});
+
+//pagination
+jQuery(document).on('click', '.page_number a', function(event) {
+    event.preventDefault();
+    var record = ($('#record').val() != '') ? $('#record').val() : null;
+    var domainName = ($('#domainName_1').val() != '') ? $('#domainName_1').val() : null;
+    var domainType = ($('#domainType_1').val() != '') ? $('#domainType_1').val() : null;
+    var start_date = ($('#start_date_1').val() != '') ? $('#start_date_1').val() : null;
+    var end_date = ($('#end_date_1').val() != '') ? $('#end_date_1').val() : null;
+    var status = ($('#status_1').val() != '') ? $('#status_1').val() : null;
+    var flgSExp = ($('#flgSExp_1').val() != '') ? $('#flgSExp_1').val() : null;
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var now_page = $('#page').val();
+    var page_count = $('#page_count').val();
+    var autoRenew = ($('#autoRenew_1').val() != '') ? $('#autoRenew_1').val() : null;
+    var sort_create = ($('#sort_create_date_1').val() != '') ? $('#sort_create_date_1').val() : null;
+    var sort_exp = ($('#sort_exp_date_1').val() != '') ? $('#sort_exp_date_1').val() : null;
+
+    var page = $(this).text();
+
+    if ($(this).data('id') == 1) {
+        page = 1;
+    }else if($(this).data('id') == page_count){
+        page = page_count;
+    }
+
+    if (page == now_page) {
+        return false;
+    }
+
+    var sort = 0;
+    var name = 'sort_create_date';
+
+    if (sort_create != 0) {
+        sort = sort_create;
+        name = 'sort_create_date';
+    }else if (sort_exp != 0){
+        sort = sort_exp;
+        name = 'sort_exp_date';
+    }
+
+    var url = '/Domain/seachDomain';
+    var dataPost = {
+        domainName : domainName,
+        domainType : domainType,
+        start_date : start_date,
+        end_date : end_date,
+        page : page,
+        status : status,
+        flgSExp : flgSExp,
+        limit : record,
+        autoRenew : autoRenew,
+        sort_create : sort_create,
+        sort_exp : sort_exp,
+    };
+    var type = 'html';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken, 1).then(res => {
+        $('.domain_name_service_management_ct .mobile_interface').html(res);
+        $('#record>[value='+record+']').attr('selected',true);
+        if (sort == 1) {
+            $('.'+name).find('span.i-con').html('<i class="fa fa-sort-desc" aria-hidden="true"></i>');
+        }else{
+            $('.'+name).find('span.i-con').html('<i class="fa fa-sort-asc" aria-hidden="true"></i>');
+        }
+        $('.'+name).data('id',sort);
+        sroll_search();
+    });
+});
+//Record
+jQuery(document).on('change', '#record', function(event) {
+	event.preventDefault();
+	var record = ($('#record').val() != '') ? $('#record').val() : null;
+    var domainName = ($('#domainName_1').val() != '') ? $('#domainName_1').val() : null;
+    var domainType = ($('#domainType_1').val() != '') ? $('#domainType_1').val() : null;
+    var start_date = ($('#start_date_1').val() != '') ? $('#start_date_1').val() : null;
+    var end_date = ($('#end_date_1').val() != '') ? $('#end_date_1').val() : null;
+    var status = ($('#status_1').val() != '') ? $('#status_1').val() : null;
+    var flgSExp = ($('#flgSExp_1').val() != '') ? $('#flgSExp_1').val() : null;
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var autoRenew = ($('#autoRenew_1').val() != '') ? $('#autoRenew_1').val() : null;
+
+    var url = '/Domain/seachDomain';
+    var dataPost = {
+        domainName : domainName,
+        domainType : domainType,
+        start_date : start_date,
+        end_date : end_date,
+        status : status,
+        flgSExp : flgSExp,
+        limit : record,
+        autoRenew : autoRenew,
+    };
+    var type = 'html';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken, 1).then(res => {
+        $('.domain_name_service_management_ct .mobile_interface').html(res);
+        $('#record>[value='+record+']').attr('selected',true);
+        sroll_search();
+    });
+});
+
+jQuery(document).on('click', '#submit_buy_service', function(event) {
+    event.preventDefault();
+    $('#buyServiceDomain').modal('hide');
+    var domainId = ($('#domainIdBuy').val() != '') ? $('#domainIdBuy').val() : null;
+    var serviceBuy = ($('#serviceBuy').val() != '') ? $('#serviceBuy').val() : null;
+    var url = '/Domain/buyDomainServices';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        domainId : domainId,
+        serviceBuy : serviceBuy,
+        typeApi : 'order'
+    };
+    var type = 'json';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            if (serviceBuy == 1) {
+                $('.dnssec_'+domainId).prop('disabled',true);
+            }else if(serviceBuy == 2){
+                $('.buider_'+domainId).prop('disabled',true);
+            }else{
+                $('.whoisprotect_'+domainId).prop('disabled',true);
+            }
+            
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red');
+        }
+    });
+});
+
+// chuyển đổi whois project
+function whoisProject(domainId, check_switch){
+    var url = '/Domain/whoisProject';
+    var dataPost = {
+        domainId : domainId,
+    };
+    var type = 'json';
+    var method = 'POST';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            notifyModel(); 
+            $('#notify').html(res.msg); 
+            if (check_switch == 1) {
+                $('.whois'+domainId).prop('checked', true);
+                $('.whois'+domainId).attr('onclick', "whoisProject("+domainId+", 0)");
+                $('#label_'+domainId).prop('title','dang_an_thong_tin_whois');
+            }else{
+                $('.whois'+domainId).prop('checked', false);
+                $('.whois'+domainId).attr('onclick', "whoisProject("+domainId+", 1)");
+                $('#label_'+domainId).prop('title','dang_hien_thong_tin_whois');
+            }
+                
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red');
+            if (check_switch == 1) {
+                $('.whois'+domainId).prop('checked', false);
+            }else{
+                $('.whois'+domainId).prop('checked', true);
+            }
+        }
+    });
+}
+
+jQuery(document).on('click', '#submit_auto_renews', function(event) {
+    event.preventDefault();
+    var domainId = $('#domain_id_auto_renews').val();
+    var status = $('#status_auto_renews').val();
+    var count_date = $('#count_date_auto_renews').val();
+    var url = '/Domain/autoRenews';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        domainId : domainId,
+        status : status
+    };
+    var type = 'json';
+    var method = 'POST';
+    $('#confirm_auto_renews').modal('hide');
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+
+        notifyModel(); 
+        $('#notify').html(res.msg);
+
+        if (res.status != 1) {
+            $('#notify').css('color', 'red');
+        }else{
+            if(status == 1){
+                $('#ios-checkbox-switch-'+domainId).attr('onclick','showPopupAutoRenews('+domainId+','+count_date+','+0+')');
+                $('#ios-checkbox-switch-'+domainId).prop('checked',false);
+                $('#title-checkbox-switch-'+domainId).attr('title',tat_gh_tu_dong);
+            }else{
+                $('#ios-checkbox-switch-'+domainId).attr('onclick','showPopupAutoRenews('+domainId+','+count_date+','+1+')');
+                $('#ios-checkbox-switch-'+domainId).prop('checked',true);
+                $('#title-checkbox-switch-'+domainId).attr('title',bat_gh_tu_dong);
+            }                   
+        }
+    });
+});
+jQuery(document).on('click', '#submit_sell_service', function(event) {
+    event.preventDefault();
+    var name = ($('#lname-sell-domain').val() != '') ? $('#lname-sell-domain').val() : null;
+    var number_phone = ($('#number-phone-sell-domain').val() != '') ? $('#number-phone-sell-domain').val() : null;
+    var price = ($('#price-sell-domain').val() != '') ? $('#price-sell-domain').val() : null;
+    var email = ($('#email-sell-domain').val() != '') ? $('#email-sell-domain').val() : null;
+    var domainId = ($('#domain-id-sell-domain').val() != '') ? $('#domain-id-sell-domain').val() : null;
+    if ($('#status-sell-domain').is(":checked")){
+        var status = ($('#status-sell-domain').val() != '') ? $('#status-sell-domain').val() : null;
+    }else{
+        var status = null;
+    }
+    $('.error-custom').remove();
+    var url = '/Domain/confirmAuDomains';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        name : name,
+        number_phone : number_phone,
+        price : price,
+        email : email,
+        domainId : domainId,
+        status : status,
+    };
+    var type = 'json';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#sellDomainName').modal('hide');
+        }else if(res.status == 2){
+            $.each(res.msg,function(index, el) {
+                var labelError = "";
+                labelError = '<span class="error-custom">' + el + '</span>';
+                $('#'+index).after(labelError);
+            });
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red'); 
+        }
+    });
+});
+
+function getUrlPost(sParam){
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++){
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam){
+            return sParameterName[1];
+        }
+    }
+}
+
+jQuery(document).on('click', '.renew-muti-button', function(event) {
+    event.preventDefault();
+    var dem = 0;
+    $.each($('input[name="renew_multi_domain[]"]:checked'), function(){            
+        dem++;
+    });
+
+    if (dem == 0) {
+        notifyModel(); 
+        $('#notify').html(vui_long_chon_ten_mien_gia_han); 
+        $('#notify').css('color', 'red');
+        return false;
+    }else{
+        $('#renew_multi_domain').submit();
+    }
+});
+
+jQuery(document).on('click', '#submit_renews', function(event) {
+    event.preventDefault();
+    var id_domain = jQuery('#form_renew').find("input[name='id']").val();
+    var url = '/Domain/checkDomainExistQueue';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        id_domain : id_domain,
+    };
+    var type = 'json';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            jQuery('#form_renew').submit();
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red'); 
+        }
+    });
+});
+
+jQuery(document).on('click', '.submit_renews_domain', function(event) {
+    event.preventDefault();
+    var el = $(this);
+    var id_domain = jQuery(this).attr('id');
+    var url = '/Domain/checkDomainExistQueue';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        id_domain : id_domain,
+    };
+    var type = 'json';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            $(el).parent('td').prev().prev().prev().find('input').prop('checked', true);
+            var dem = 0;
+            $('input[name="arrID[]"]').remove();
+            $.each($('input[name="renew_multi_domain[]"]:checked'), function(){            
+                dem++;
+                $('#renew_multi_domain').append('<input type="hidden" name="arrID[]" value="'+$(this).val()+'">');
+            });
+            if (dem > 20) {
+                notifyModel(); 
+                $('#notify').html(gia_han_toi_da_20_ten_mien_1_luc); 
+                $('#notify').css('color', 'red');
+                return false;
+            }
+            jQuery('#renew_multi_domain').submit();
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red'); 
+        }
+    });
+});
+
+function sort_list_func(name = 'sort_create_date'){
+    var record = ($('#record').val() != '') ? $('#record').val() : null;
+    var domainName = ($('#domainName_1').val() != '') ? $('#domainName_1').val() : null;
+    var domainType = ($('#domainType_1').val() != '') ? $('#domainType_1').val() : null;
+    var start_date = ($('#start_date_1').val() != '') ? $('#start_date_1').val() : null;
+    var end_date = ($('#end_date_1').val() != '') ? $('#end_date_1').val() : null;
+    var status = ($('#status_1').val() != '') ? $('#status_1').val() : null;
+    var flgSExp = ($('#flgSExp_1').val() != '') ? $('#flgSExp_1').val() : null;
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var key = ($('#key_1').val() != '') ? $('#key_1').val() : null;
+    var autoRenew = ($('#autoRenew_1').val() != '') ? $('#autoRenew_1').val() : null;
+
+    var sort =  ($('.'+name).data('id') != '') ? $('.'+name).data('id') : 0;
+    if (sort == 1) {
+        sort = 2;
+    }else{
+        sort = 1;
+    }
+    var sort_create = 0;
+    var sort_exp = 0;
+    if (name == 'sort_create_date') {
+        sort_create = sort;
+    }else{
+        sort_exp = sort;
+    }
+
+    var url = '/Domain/seachDomain';
+    var dataPost = {
+        domainName : domainName,
+        domainType : domainType,
+        start_date : start_date,
+        end_date : end_date,
+        status : status,
+        flgSExp : flgSExp,
+        limit : record,
+        key : key,
+        autoRenew : autoRenew,
+        sort_create : sort_create,
+        sort_exp : sort_exp,
+    };
+    var type = 'html';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method,csrfToken, 1).then(res => {
+        $('.domain_name_service_management_ct .mobile_interface').html(res);
+        $('#record>[value='+record+']').attr('selected',true);
+        if (sort == 1) {
+            $('.'+name).find('span.i-con').html('<i class="fa fa-sort-desc" aria-hidden="true"></i>');
+        }else{
+            $('.'+name).find('span.i-con').html('<i class="fa fa-sort-asc" aria-hidden="true"></i>');
+        }
+        $('.'+name).data('id',sort);
+        sroll_search();
+    });
+}

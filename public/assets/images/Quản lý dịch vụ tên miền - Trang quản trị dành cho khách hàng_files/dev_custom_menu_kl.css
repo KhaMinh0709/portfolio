@@ -1,0 +1,64 @@
+.menu-fixed-nv2021 .menu_up>ul.menu>li:nth-child(3)>ul.sub-menu>li:nth-child(7)>a:before {
+    content: url(../../images/artificial-intelligence.png);
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(7)>ul.sub-menu>li:nth-child(1)>a::before {
+    content: "";
+    background: url(../../images/ai_content.png) no-repeat !important;
+    width: 44px;
+    height: 44px;
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(7)>ul.sub-menu>li:nth-child(2)>a::before,
+.tg_register_service_nsx ul.sub-menu>li:nth-child(7)>ul.sub-menu>li:nth-child(2)>a::before {
+    content: "";
+    background: url(../../images/Icon_Miraweb.png) no-repeat !important;
+    width: 32px;
+    height: 32px;
+    left: 19px !important;
+    top: 7px !important;
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(7)>ul.sub-menu>li:nth-child(3)>a::before
+/*.tg_register_service_nsx ul.sub-menu>li:nth-child(6)>ul.sub-menu>li:nth-child(3)>a::before */
+{
+    content: "";
+    background: url(/newid/images/aiva_favicon.png) no-repeat !important;
+    width: 32px;
+    height: 32px;
+    left: 19px !important;
+    top: 7px !important;
+}
+.menu-fixed-nv2021 .menu_up>ul.menu>li:nth-child(3)>ul.sub-menu>li:nth-child(8)>a:before {
+    content: "";
+    background: url(/newid/images/menu_line_icon.png);
+    width: 28px;
+    height: 15px;
+    top: 16px;
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(8)>ul.sub-menu>li:nth-child(1)>a::before,
+.tg_service_management_nsx ul.sub-menu>li:nth-child(8)>ul.sub-menu>li:nth-child(5)>a::before {
+    background: url(../../images/chu-ky-so.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    top: 5px !important;
+    left: 17px !important;
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(8)>ul.sub-menu>li:nth-child(2)>a::before {
+    background: url(../../images/hoa-don-dien-tu.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    left: 12px !important;
+    top: 12px !important;
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(8)>ul.sub-menu>li:nth-child(3)>a::before {
+    background: url(../../images/bao-hiem.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    left: 12px !important;
+    top: 12px !important;
+}
+.tg_service_management_nsx ul.sub-menu>li:nth-child(8)>ul.sub-menu>li:nth-child(4)>a::before {
+    background: url(../../images/hop-dong-dien-tu.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    left: 12px !important;
+    top: 12px !important;
+}

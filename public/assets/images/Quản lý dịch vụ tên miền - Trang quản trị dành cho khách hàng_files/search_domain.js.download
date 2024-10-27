@@ -1,0 +1,389 @@
+jQuery(document).ready(function($) {
+    $('.exportNow').click(function(event) {
+        event.preventDefault();
+    
+        $('#export').modal('show');
+        $('.progress').show();
+        $('.progress-bar').css('width', '0%'); 
+        $('.ul-tog-domain').hide();
+        var dataOutput = [['Tên miền','Whois Protect','Gia hạn tự động','Trạng thái','Ngày đăng ký','Ngày hết hạn']];
+        var pageNumber = $('#page').val();
+        var totalPages = pageNumber;
+
+        exportExcel(totalPages, dataOutput, pageNumber);
+    });
+    $('.exportAll').click(function(event) {
+        event.preventDefault();
+    
+        $('#export').modal('show');
+        $('.progress').show();
+        $('.progress-bar').css('width', '0%'); 
+        $('.ul-tog-domain').hide();
+        var totalPages = $('#page_count').val();
+        var dataOutput = [['Tên miền','Whois Protect','Gia hạn tự động','Trạng thái','Ngày đăng ký','Ngày hết hạn']];
+        var pageNumber = 1;
+
+        exportExcel(totalPages, dataOutput, pageNumber);
+    });
+
+    $('.sort_create_date').click(function(event) {
+        event.preventDefault();
+        sort_list_func('sort_create_date');
+    });
+
+    $('.sort_exp_date').click(function(event) {
+        event.preventDefault();
+        sort_list_func('sort_exp_date');
+    });
+
+
+});
+// SHOW LIST UL
+jQuery('.domain_tt_box').click(function(e) {
+    jQuery(this).find('.qb_choice_box').slideToggle(300).click(function(e_ul) {
+        e_ul.stopPropagation();
+    });
+    jQuery('.domain_tt_box').not(this).find('.qb_choice_box').hide();
+});
+    
+$('.click-ul-tog').click(function() {
+    $(this).find('.ul-tog').slideToggle(300).click(function(e_ul){
+        e_ul.stopPropagation();
+    });
+    $('.click-ul-tog').not(this).find('.ul-tog').hide();
+});
+
+$('.close-manipulation').click(function() {
+    $('.click-ul-tog').find('.ul-tog').hide();
+});
+
+jQuery(document).on('click', '.select_domain', function(event) {
+    // event.preventDefault();
+    var dem = 0;
+    $('input[name="arrID[]"]').remove();
+    $.each($('input[name="renew_multi_domain[]"]:checked'), function(){            
+        dem++;
+        $('#renew_multi_domain').append('<input type="hidden" name="arrID[]" value="'+$(this).val()+'">');
+    });
+
+    if (dem > 20) {
+        notifyModel(); 
+        $('#notify').html(gia_han_toi_da_20_ten_mien_1_luc); 
+        $('#notify').css('color', 'red');
+        return false;
+    }
+
+    $('.dem_domain').html('('+dem+')');
+});
+
+function exportExcel(totalPages, dataOutput, pageNumber){
+    var record = ($('#record').val() != '') ? $('#record').val() : null;
+    var domainName = ($('#domainName_1').val() != '') ? $('#domainName_1').val() : null;
+    var domainType = ($('#domainType_1').val() != '') ? $('#domainType_1').val() : null;
+    var start_date = ($('#start_date_1').val() != '') ? $('#start_date_1').val() : null;
+    var end_date = ($('#end_date_1').val() != '') ? $('#end_date_1').val() : null;
+    var status = ($('#status_1').val() != '') ? $('#status_1').val() : null;
+    var flgSExp = ($('#flgSExp_1').val() != '') ? $('#flgSExp_1').val() : null;
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var autoRenew = ($('#autoRenew_1').val() != '') ? $('#autoRenew_1').val() : null;
+    var url = '/Domain/exportDataExcel';
+    var dataPost = {
+        domainName : domainName,
+        domainType : domainType,
+        start_date : start_date,
+        end_date : end_date,
+        status : status,
+        page : pageNumber,
+        flgSExp : flgSExp,
+        limit : record,
+        autoRenew : autoRenew
+    };
+    var type = 'json';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken, 0).then(res => {
+        if (res.status == 1) {
+            if (typeof pageNumber != 'undefined' && typeof totalPages != 'undefined') {
+                $('.progress-bar').css('width', Math.ceil((pageNumber * 100 / totalPages)) + '%');
+                $('.progress-bar').html(Math.ceil((pageNumber * 100 / totalPages)) + '%');
+                dataOutput = dataOutput.concat(res.itemsExcel);
+                pageNumber ++;
+                if (pageNumber > totalPages) {
+                    $('#export').modal('hide');
+                    $('.progress').hide();
+                    $('.progress-bar').css('width', '0%');
+                    $('.progress-bar').html('0%');
+                    var ws = XLSX.utils.aoa_to_sheet(dataOutput);
+                    var wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+                    XLSX.writeFile(wb, "danh_sach_domain.xlsx");
+                }else {
+                    exportExcel(totalPages,dataOutput,pageNumber);                        
+                }
+            }else {
+                $('#export').modal('hide');
+                $('.progress').hide();
+                notifyModel(); 
+                $('#notify').html(xuat_du_lieu_ra_excel_khong_thanh_cong);
+            }
+        }else {
+            $('#export').modal('hide');
+            $('.progress').hide();
+            notifyModel(); 
+            $('#notify').html(xuat_du_lieu_ra_excel_khong_thanh_cong);
+        }
+    });
+}
+
+function buyDomainService(domainId = null, serviceBuy = null, domainName = ''){
+    event.preventDefault();
+    var url = '/Domain/buyDomainServices';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        domainId : domainId,
+        serviceBuy : serviceBuy,
+        domainName : domainName,
+    };
+    var type = 'json';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            $('.name_domain_buy').html(res.msg.name_domain_buy);
+            $('.quantity_buy').html(res.msg.quantity_buy);
+            $('.expdate_buy').html(res.msg.expdate_buy);
+            $('.price_buy').html(res.msg.price_buy);
+            $('.vat_buy').html(res.msg.vat_buy);
+            $('.total_buy').html(res.msg.total_buy);
+
+            $('#domainIdBuy').val(domainId);
+            $('#serviceBuy').val(serviceBuy);
+            var title = '';
+            if (serviceBuy == 1) {
+                title = mua_dich_vu_Dnssec;
+            }else if(serviceBuy == 2){
+                title = mua_dich_vu_WhoisProtect;
+            }else if(serviceBuy == 5){
+                title = 'Mua dịch vụ DomainLock';
+            }else{
+                title = mua_dich_vu_Builder;
+            }
+            $('#exampleModalLongTitleBuy b').html(title);
+            $('#buyServiceDomain').modal('show');
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red');
+        }
+    });
+}
+
+function showPopupAutoRenews(domainId = null, count_date = 0, auto_renews = 0){
+    event.preventDefault();
+    if (count_date >= 20) {
+        if (auto_renews == 0) {
+            $('.text_questions').html('');
+        }else{
+            var html = '<div class="modal-body" id="content-auto-renew"><p class="text_questions">'+ban_co_mua_gia_han_tu_dong+'</p></div>';
+            $('.text_questions').html(html);
+        }
+        $('#confirm_auto_renews').modal('show');
+        $('#domain_id_auto_renews').val(domainId);
+        $('#status_auto_renews').val(auto_renews);
+        $('#count_date_auto_renews').val(count_date);
+            
+    }else{
+        notifyModel(); 
+        $('#notify').html(dich_vu_khong_du_dk_thay_doi_gh_tu_dong);
+        $('#notify').css('color', 'red');
+    }
+}
+// Gia hạn tên miền
+$('.renews').click(function() {
+    $('.ul-tog-domain').hide();
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var id = $(this).attr('id');
+    var url = '/Domain/formRenews';
+    var dataPost = {
+        id : id,
+    };
+    var type = 'json';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method, csrfToken, 1).then(res => {
+        if (res.status == 1) {
+            $.each(res.msg,function(index, el) {
+                $('#'+index).attr('value', el);
+            });
+
+        }else{
+            $('#form_renew').html(res.msg);
+        }
+        $('#renews').modal('show');
+    });
+});
+//Chọn năm gia hạn
+$('#year-number').change(function() {
+    var number_year = parseInt($(this).val(),10);
+    var expiration_date = $('#expiration-date').val();
+    if (/^\d{4}\-\d{1,2}\-\d{1,2}$/i.test(expiration_date)) {
+        var date = expiration_date.split("-");
+
+        var year = date[0] && parseInt( date[0], 10 );
+        var month = date[1] && parseInt( date[1], 10 );
+        var day = date[2] && parseInt( date[2], 10 );
+        var duration = parseInt( $("#registerfor").val(), 10);
+
+        if( day <= 31 && day >= 1 && month <= 12 && month >= 1 ) {
+            year = year + number_year;
+            $("#expiration-date-new").val(year + "-" + month + "-" + day);
+
+        }else{
+            
+        }
+    }           
+});
+
+function SellDomainName(doaminId = null, domainName = null){
+    $('#exampleModalLongTitlesellDomainName b').html(rao_ban_ten_mien+domainName);
+    $('.form-sell-domain-name')[0].reset();
+    $('.error-custom').remove();
+    var url = '/Domain/checkDomainServices';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        domainId : doaminId,
+    };
+    var type = 'json';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 1) {
+            $('#domain-id-sell-domain').val(doaminId);
+            $('#sellDomainName').modal('show');
+        }else{
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red'); 
+        }
+    });
+}
+
+function UpdateNs(domain_id = null){  
+    $('.ul-tog-domain').hide();
+    var loadding = '<div class="loading_spinner" style="margin-top: 0px !important;"></div>';
+    $('#content-update-ns').html(loadding);
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var url = '/Domain/updateNs';
+    var dataPost = {
+        domain_id : domain_id,
+    };
+    var type = 'html';
+    var method = 'POST';
+
+    callAjax(url, dataPost, type, method,csrfToken, 1).then(res => {
+        $('#content-update-ns').html(res);      
+        $('#update_ns').modal('show');
+    });
+}
+
+function ChiQt(){
+    $('.ul-tog-domain').hide();
+    notifyModel(); 
+    $('#notify').html(chi_ap_dung_cho_ten_mien_qt); 
+    $('#notify').css('color', 'red');
+}
+function ChiVn(){
+    $('.ul-tog-domain').hide();
+    notifyModel(); 
+    $('#notify').html(chi_ap_dung_cho_ten_mien_vn); 
+    $('#notify').css('color', 'red');
+}
+
+function checkMail(domainId = null){
+    $('.ul-tog-domain').hide();
+    var url = '/Domain/checkSendMail';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        domainId : domainId,
+    };
+    var type = 'json';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        if (res.status == 0) {
+            notifyModel(); 
+            $('#notify').html(res.msg);
+            $('#notify').css('color', 'red');
+        }else if(res.status == 2){
+            notifyModel(); 
+            $('#notify').html(res.msg);
+        }else{
+            // var html = '<div id="confirmSendMail" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">\
+            //     <div class="modal-dialog" role="document">\
+            //     <div class="modal-content modal-content-TB">\
+            //     <div class="modal-header modal-header-TB">\
+            //         <center><h4 class="title_popup" id="exampleModalLongTitle"><b>'+thong_bao+'</b></h4></center>\
+            //         <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+            //             <span aria-hidden="true">&times;</span>\
+            //         </button>\
+            //     </div>\
+            //     <div class="modal-body modal-body-TB" >\
+            //         <center id="contentSendMail">'+vui_long_xac_nhan_lai+'</center>\
+            //     </div>\
+            //     <div class="button-close">\
+            //     <center>\
+            //     <input type="button" class="btn btn-primary" onclick="sentMail('+res.id_domain+',\''+res.email+'\')" value="'+send+'"/>\
+            //     <input type="button" class="btn btn-primary" value="'+cancel+'" data-dismiss="modal" aria-label="No"/>\
+            //     </center>\
+            //     </div>\
+            //     </div></div>\
+            // </div>';
+            // $('body').append(html);
+            // $('#confirmSendMail').modal('show');
+            notifyModel(); 
+            $('#notify').html(res.msg);
+        }
+         
+    });
+}
+
+// Gửi mail xác nhận
+function sentMail(domainId = null, email = null){
+    
+    var url = '/Domain/sentMail';
+    var csrfToken = $('input[name="_csrfToken"]').val();
+    var dataPost = {
+        domainId : domainId,
+        email : email
+    };
+    var type = 'json';
+    var method = 'POST';
+    $('#confirmSendMail').modal('hide');
+    callAjax(url, dataPost, type, method,csrfToken , 1).then(res => {
+        notifyModel(); 
+        $('#notify').html(res.msg); 
+    });     
+}
+//Đổi mật khẩu domain
+function ChangePassDomain(domain_name = null ,domainId = null, created_date = null, expiration_date = null, count_date = null){
+    if (count_date >= 0) {
+        $('.ul-tog-domain').hide();
+        var loadding = '<div class="loading_spinner" style="margin-top: 0px !important;"></div>';
+        var csrfToken = $('input[name="_csrfToken"]').val();
+        $('#content-pass').html(loadding);
+        var url = '/Domain/changePassword';
+        var dataPost = {
+            domain_name : domain_name,
+            domainId : domainId,
+            created_date : created_date,
+            expiration_date : expiration_date
+        };
+        var type = 'html';
+        var method = 'POST';
+        callAjax(url, dataPost, type, method,csrfToken , 0).then(res => {
+            $('#content-pass').html(res);
+            $('#change_pass').modal('show');
+        });
+    }else{
+        var Url = window.location.origin;
+        $(location).attr('href', Url+'/Report/index?service=domain');
+    }
+    
+}

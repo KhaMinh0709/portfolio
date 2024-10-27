@@ -1,0 +1,17 @@
+$(document).on('click', '.change_lang', function(event) {
+	event.preventDefault();
+	var lang = ($(this).data('id') != '') ? $(this).data('id') : 'vi';
+	var url = '/Language/index';
+    var dataPost = {
+        lang : lang,             
+    };
+    var type = 'json';
+    var method = 'POST';
+    callAjax(url, dataPost, type, method,crsf_token, 1).then(res => {
+    	if (res.status == 1) {
+    		location.reload();
+    	}else{
+    		return false;
+    	}
+    });
+});

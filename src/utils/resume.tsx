@@ -47,7 +47,7 @@ export const DATA = {
   ],
   projects: [
     {
-      name: 'Booking Train Ticket System (BE)',
+      name: 'Booking Train Ticket System (Back-End)',
       description: 'Booking Train Ticket BE using java Spring boot',
       link: 'https://github.com/KhaMinh0709/BookingTrainTicket-BE-SpringBoot',
       img: {
@@ -70,6 +70,29 @@ export const DATA = {
         {
           name: 'spring secure',
           color: ColorTags.ROSE,
+        },
+      ],
+    },
+    {
+      name: 'Booking Train Ticket System (Font-End)',
+      description: 'Booking Train Ticket interface using reactJS',
+      link: 'https://github.com/KhaMinh0709/BookingTrainTicket-FE-ReactJS',
+      img: {
+        src: '/assets/images/booking.png',
+        alt: 'interface client Booking Train Ticket at the station using reactJS',
+      },
+      category: [
+        {
+          name: 'component js',
+          color: ColorTags.FUCHSIA,
+        },
+        {
+          name: 'ReactJS',
+          color: ColorTags.LIME,
+        },
+        {
+          name: 'using API',
+          color: ColorTags.SKY,
         },
       ],
     },
