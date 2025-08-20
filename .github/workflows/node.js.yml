@@ -22,7 +22,7 @@ jobs:
           port: 22
           script: |
             echo "🚀 Bắt đầu deploy Astro project"
-            cd ~/apps/astro-boilerplate || mkdir -p ~/apps/astro-boilerplate && cd ~/apps/astro-boilerplate
+            cd ~/workspace/portfolioMinhDev
             
             # Pull code mới nhất từ GitHub
             git pull origin main || git clone git@github.com:YOUR_USERNAME/YOUR_REPO.git .
